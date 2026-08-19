@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Impressum & Datenschutz – KÜR Kunstübungsraum Milbertshofen">
+  <title>Impressum & Datenschutz – KÜR</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+    :root {
+      --bg:      #F4F1EB;
+      --ink:     #0F0F0E;
+      --green:   #3DB53A;
+      --muted:   #9A9590;
+      --faint:   #C8C4BC;
+      --rule:    #D4D0C8;
+      --paper:   #FFFFFF;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --container: 1400px;
+      --pad-x:     80px;
+      --pad-s:     104px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--green);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    .wrap {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    /* ─── Scroll Reveal ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ─────────────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      padding: 12px var(--pad-x);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.5s ease, border-color 0.5s ease;
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      background: var(--green);
+      border-color: rgba(0,0,0,0.12);
+    }
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: var(--ink);
+      transition: opacity 0.3s ease;
+      text-align: center;
+    }
+    .nav-logo:hover { opacity: 0.7; }
+    .nav-logo-kuer {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: 0.12em;
+      line-height: 1;
+    }
+    .nav-logo-sub {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      color: rgba(15,15,14,0.55);
+      line-height: 1.4;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 72px;
+    }
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: rgba(15,15,14,0.6);
+      position: relative;
+      padding-bottom: 3px;
+      transition: color 0.3s ease;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .nav-burger span {
+      display: block;
+      width: 26px; height: 1.5px;
+      background: rgba(15,15,14,0.7);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--green);
+      z-index: 190;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .nav-overlay.open { display: flex; }
+    .nav-overlay a {
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+    }
+    .nav-overlay a:hover { opacity: 1; }
+
+    /* ─────────────────────────────────────────────────
+       PAGE HEADER
+    ───────────────────────────────────────────────── */
+    .page-header {
+      padding: calc(var(--pad-s) + 80px) var(--pad-x) var(--pad-s);
+      background: var(--green);
+    }
+    .page-header .wrap {
+      border-bottom: 1px solid rgba(15,15,14,0.18);
+      padding-bottom: 48px;
+    }
+    .page-header-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(15,15,14,0.5);
+      display: block;
+      margin-bottom: 24px;
+    }
+    .page-header h1 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(48px, 7vw, 110px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    /* ─────────────────────────────────────────────────
+       CONTENT
+    ───────────────────────────────────────────────── */
+    .content {
+      background: var(--green);
+      padding: 80px 0 120px;
+    }
+    .content-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .content-nav {
+      position: sticky;
+      top: 100px;
+    }
+    .content-nav-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(15,15,14,0.45);
+      display: block;
+      margin-bottom: 12px;
+    }
+    .content-nav ul {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .content-nav a {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(15,15,14,0.5);
+      padding: 3px 0 3px 12px;
+      display: block;
+      transition: color 0.2s ease, border-color 0.2s ease;
+      border-left: 2px solid transparent;
+    }
+    .content-nav a:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+    .content-nav .nav-divider {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(15,15,14,0.45);
+      display: block;
+      margin: 16px 0 8px;
+      padding-left: 12px;
+    }
+
+    .content-body {
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    /* ─── Legal Sections ─────────────────────────────── */
+    .legal-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .legal-section h2 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(20px, 2.2vw, 28px);
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(15,15,14,0.15);
+    }
+    .legal-section h3 {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ink);
+      margin-top: 4px;
+    }
+    .legal-section p,
+    .legal-section address {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: rgba(15,15,14,0.82);
+      font-style: normal;
+    }
+    .legal-section a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      word-break: break-all;
+      transition: opacity 0.2s ease;
+    }
+    .legal-section a:hover { opacity: 0.6; }
+    .legal-section ul.list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-left: 4px;
+    }
+    .legal-section ul.list li {
+      font-size: 14px;
+      line-height: 1.75;
+      color: rgba(15,15,14,0.82);
+      padding-left: 20px;
+      position: relative;
+    }
+    .legal-section ul.list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: rgba(15,15,14,0.35);
+      font-size: 11px;
+      top: 4px;
+    }
+
+    .data-block {
+      background: rgba(15,15,14,0.07);
+      border-radius: 3px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .data-block-label {
+      font-family: var(--font-mono) !important;
+      font-size: 9px !important;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(15,15,14,0.45) !important;
+      line-height: 1 !important;
+    }
+    .data-block p {
+      font-size: 13px !important;
+      line-height: 1.7 !important;
+    }
+
+    .chapter-heading {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(22px, 2.8vw, 36px);
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      padding: 32px 0 20px;
+      border-top: 2px solid rgba(15,15,14,0.25);
+      margin-top: 16px;
+    }
+
+    /* ─────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────── */
+    .footer {
+      background: var(--ink);
+      color: rgba(244,241,235,0.75);
+      padding: var(--pad-s) 0 40px;
+      font-family: var(--font-body);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 64px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid rgba(244,241,235,0.1);
+    }
+    .footer-logo {
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--bg);
+      margin-bottom: 20px;
+    }
+    .footer-address {
+      font-size: 13px;
+      line-height: 1.9;
+      font-style: normal;
+      color: rgba(244,241,235,0.5);
+    }
+    .footer-col-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(244,241,235,0.3);
+      margin-bottom: 16px;
+    }
+    .footer-nav { display: flex; flex-direction: column; gap: 10px; }
+    .footer-nav a {
+      font-size: 14px;
+      color: rgba(244,241,235,0.55);
+      transition: color 0.2s ease;
+    }
+    .footer-nav a:hover { color: var(--bg); }
+    .footer-contact { display: flex; flex-direction: column; }
+    .footer-contact a,
+    .footer-contact p {
+      font-size: 13px;
+      line-height: 1.9;
+      color: rgba(244,241,235,0.55);
+    }
+    .footer-contact a { transition: color 0.2s ease; }
+    .footer-contact a:hover { color: var(--bg); }
+    .footer-contact .sub-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(244,241,235,0.25);
+      margin-top: 18px;
+      margin-bottom: 2px;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+    }
+    .footer-copy {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: rgba(244,241,235,0.25);
+      letter-spacing: 0.06em;
+    }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: rgba(244,241,235,0.35);
+      letter-spacing: 0.06em;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s ease;
+    }
+    .footer-legal a:hover { color: var(--bg); }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 1024px) {
+      :root { --pad-x: 48px; --pad-s: 72px; }
+      .content-grid { grid-template-columns: 1fr; gap: 40px; }
+      .content-nav { position: static; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      :root { --pad-x: 24px; --pad-s: 56px; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Navigation ───────────────────────────────── -->
+  <nav class="nav" id="nav" aria-label="Hauptnavigation">
+    <a href="index.html" class="nav-logo" aria-label="KÜR Startseite">
+      <span class="nav-logo-kuer">KÜR</span>
+      <span class="nav-logo-sub">Kunstübungsraum</span>
+      <span class="nav-logo-sub">Milbertshofen</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="ueber-uns.html">Über Uns</a></li>
+      <li><a href="programm.html">Programm</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
+      <li><a href="archiv.html">Archiv</a></li>
+    </ul>
+    <button class="nav-burger" id="navBurger" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" id="navOverlay" role="dialog" aria-label="Hauptnavigation mobil">
+    <a href="ueber-uns.html">Über Uns</a>
+    <a href="programm.html">Programm</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="nutzerinnen.html">Nutzer*innen</a>
+    <a href="archiv.html">Archiv</a>
+  </div>
+
+  <main>
+
+    <!-- ─── Page Header ──────────────────────────────── -->
+    <header class="page-header">
+      <div class="wrap">
+        <span class="page-header-label">KÜR – Kunstübungsraum Milbertshofen</span>
+        <h1>Impressum &amp;<br>Datenschutz</h1>
+      </div>
+    </header>
+
+    <!-- ─── Content ─────────────────────────────────── -->
+    <section class="content">
+      <div class="wrap">
+        <div class="content-grid">
+
+          <!-- Sidebar navigation -->
+          <aside class="content-nav" aria-label="Seitennavigation">
+            <span class="content-nav-label">Impressum</span>
+            <ul>
+              <li><a href="#impressum">Angaben § 5 TMG</a></li>
+              <li><a href="#urheberrecht">Urheberrecht</a></li>
+              <li><a href="#haftung-inhalte">Haftung für Inhalte</a></li>
+              <li><a href="#haftung-links">Haftung für Links</a></li>
+            </ul>
+            <span class="nav-divider">Datenschutz</span>
+            <ul>
+              <li><a href="#datenschutz">Datenschutzerklärung</a></li>
+              <li><a href="#verantwortlicher">Verantwortlicher</a></li>
+              <li><a href="#datenarten">Verarbeitete Daten</a></li>
+              <li><a href="#begriffe">Begrifflichkeiten</a></li>
+              <li><a href="#rechtsgrundlagen">Rechtsgrundlagen</a></li>
+              <li><a href="#sicherheit">Sicherheitsmaßnahmen</a></li>
+              <li><a href="#betroffenenrechte">Ihre Rechte</a></li>
+              <li><a href="#cookies">Cookies</a></li>
+              <li><a href="#microsoft">Microsoft Cloud</a></li>
+              <li><a href="#bewerbung">Bewerbungsverfahren</a></li>
+              <li><a href="#hosting">Hosting</a></li>
+              <li><a href="#drittanbieter">Drittanbieter</a></li>
+              <li><a href="#soziale-netzwerke">Soziale Netzwerke</a></li>
+            </ul>
+          </aside>
+
+          <!-- Main content -->
+          <div class="content-body">
+
+            <!-- ─── IMPRESSUM ─── -->
+            <article class="legal-section reveal" id="impressum">
+              <h2>Impressum</h2>
+              <h3>Angaben gemäß § 5 TMG:</h3>
+              <address>
+                Stadtteilarbeit e. V.<br>
+                Hanselmannstr. 31<br>
+                80809 München
+              </address>
+              <h3>Vertreten durch den Geschäftsführenden Vorstand:</h3>
+              <p>
+                Thorsten Kritsch, Michael Schrauth<br>
+                Telefon: <a href="tel:+498935959470">+49 (089) 3595947</a><br>
+                Telefax: +49 (089) 3595948<br>
+                E-Mail: <a href="mailto:info@verein-stadtteilarbeit.de">info@verein-stadtteilarbeit.de</a>
+              </p>
+              <h3>Registereintrag:</h3>
+              <p>
+                Eintragung im Vereinsregister<br>
+                Registergericht: Amtsgericht München<br>
+                Registernummer: VR 11220
+              </p>
+              <h3>Umsatzsteuer:</h3>
+              <p>
+                Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:<br>
+                143/844/54082
+              </p>
+              <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
+              <address>
+                Thorsten Kritsch<br>
+                Hanselmannstr. 31<br>
+                80809 München
+              </address>
+              <h3>Website &amp; Design:</h3>
+              <p>PP&amp;P – Paul Putzar &amp; Partners</p>
+            </article>
+
+            <!-- Urheberrecht -->
+            <article class="legal-section reveal" id="urheberrecht">
+              <h2>Urheberrecht</h2>
+              <p>
+                Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des*der jeweiligen Autors*in bzw. Erstellers*in. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+              </p>
+              <p>
+                Soweit die Inhalte auf dieser Seite nicht von dem*der Betreiber*in erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+              </p>
+              <p>Quelle: <a href="https://www.e-recht24.de/impressum-generator.html" target="_blank" rel="noopener noreferrer">https://www.e-recht24.de/impressum-generator.html</a></p>
+            </article>
+
+            <!-- Haftung für Inhalte -->
+            <article class="legal-section reveal" id="haftung-inhalte">
+              <h2>Haftung für Inhalte</h2>
+              <p>
+                Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+              </p>
+              <p>
+                Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+              </p>
+            </article>
+
+            <!-- Haftung für Links -->
+            <article class="legal-section reveal" id="haftung-links">
+              <h2>Haftung für Links</h2>
+              <p>
+                Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+              </p>
+            </article>
+
+            <!-- ─── DATENSCHUTZ ─── -->
+            <h2 class="chapter-heading reveal">DATENSCHUTZ &amp; COOKIES</h2>
+
+            <article class="legal-section reveal" id="datenschutz">
+              <h2>Datenschutzerklärung</h2>
+              <p>
+                Wir freuen uns sehr über Ihr Interesse an unserem Projekt. Datenschutz hat für unsere Geschäftsführung einen besonders hohen Stellenwert. Um unseren Pflichten gem. Art. 13 DSGVO nachzukommen, werden Sie mithilfe dieser Datenschutzerklärung über Art und Umfang sowie den Zweck der Verarbeitung von personenbezogenen Daten (im Folgenden „Daten") aufgeklärt, die bei der Erbringung unserer Leistungen und innerhalb unseres Onlineangebotes anfällt. Dieses Onlineangebot umfasst insbesondere die hierfür erforderlichen Webseiten sowie damit verbundene Funktionen und Inhalte als auch externe Onlinepräsenzen, wie beispielsweise Profile sozialer Netzwerke und Medien. Bezüglich der verwendeten Begrifflichkeiten wird auf die Definitionen des Art. 4 der Datenschutzgrundverordnung (DSGVO) verwiesen.
+              </p>
+            </article>
+
+            <article class="legal-section reveal" id="verantwortlicher">
+              <h2>Verantwortlicher</h2>
+              <p>Verantwortlicher für die Datenverarbeitung im Sinne des Art. 13 I DSGVO ist:</p>
+              <div class="data-block">
+                <p class="data-block-label">Verantwortliche Stelle</p>
+                <address>
+                  Verein Stadtteilarbeit<br>
+                  Hanselmannstr. 31<br>
+                  80809 München<br>
+                  E-Mail: <a href="mailto:t.kritsch@verein-stadtteilarbeit.de">t.kritsch@verein-stadtteilarbeit.de</a><br>
+                  Website: <a href="https://verein-stadtteilarbeit.de/impressum.html" target="_blank" rel="noopener noreferrer">https://verein-stadtteilarbeit.de/impressum.html</a>
+                </address>
+              </div>
+              <p>Der Datenschutzbeauftragte des für die Verarbeitung Verantwortlichen ist:</p>
+              <div class="data-block">
+                <p class="data-block-label">Datenschutzbeauftragter</p>
+                <address>
+                  Dr. Alexander Löw<br>
+                  Data-Warehouse GmbH<br>
+                  Beethovenstr. 33-35<br>
+                  85521 Ottobrunn<br>
+                  Tel.: <a href="tel:+498966039300">+49 (0)89 660 393 – 0</a><br>
+                  E-Mail: <a href="mailto:datenschutz@dwh.info">datenschutz@dwh.info</a><br>
+                  Website: <a href="https://www.datawh.de" target="_blank" rel="noopener noreferrer">www.datawh.de</a>
+                </address>
+              </div>
+            </article>
+
+            <article class="legal-section reveal" id="datenarten">
+              <h2>Betroffene Personen</h2>
+              <p>Durch die von uns durchgeführte Datenverarbeitung sind Besucher*innen und Nutzer*innen unseres Onlineangebotes betroffen.</p>
+
+              <h3>Arten der verarbeiteten Daten</h3>
+              <p>Im Falle des bloßen Aufrufens unseres Onlineangebotes, also ohne Registrierung oder Angabe sonstiger Informationen, werden nur die durch den Browser des*der jeweiligen Nutzers*in an unseren Server übermittelten Daten (sog. „Server-Logfiles") erhoben. Hiervon sind folgende Daten betroffen:</p>
+              <ul class="list">
+                <li>Datum und Uhrzeit zum Zeitpunkt des Zugriffes</li>
+                <li>Menge der gesendeten Daten in Byte</li>
+                <li>Quelle/Verweis, von welchem Sie auf die Seite gelangten.</li>
+                <li>Verwendete IP-Adresse (ggf.: in anonymisierter Form)</li>
+                <li>Nutzungsdaten (z.B. sog. Cookies, besuchte Webseiten, Interesse an Inhalten, Zugriffszeiten)</li>
+                <li>Meta-/Kommunikationsdaten (z.B. Software-Informationen, IP-/MAC-Adressen, verwendetes Betriebssystem sowie Browser)</li>
+              </ul>
+              <p>Sollte der*die jeweilige Nutzer*in auch eine Registrierung abschließen oder sonstige Angaben übermitteln, so werden darüber hinaus auch folgende Daten verarbeitet:</p>
+              <ul class="list">
+                <li>Bestandsdaten (z.B. Personen-Stammdaten, Namen oder Adressen)</li>
+                <li>Kontaktdaten (z.B. E-Mail-Adressen, Telefonnummern)</li>
+                <li>Inhaltsdaten (z.B. Texteingaben, Foto- und Videomaterialien)</li>
+              </ul>
+
+              <h3>Zweck der Verarbeitung</h3>
+              <p>Die Verarbeitung der Daten erfolgt</p>
+              <ul class="list">
+                <li>zur Bereitstellung des Onlineangebotes einschließlich seiner Funktionen und Inhalte,</li>
+                <li>zur Beantwortung von Kontaktanfragen und Kommunikation mit Nutzer*innen,</li>
+                <li>zur Gewährleistung von Sicherheitsmaßnahmen,</li>
+                <li>zur Reichweitenmessung sowie</li>
+                <li>zu Marketing-Zwecken.</li>
+              </ul>
+            </article>
+
+            <article class="legal-section reveal" id="begriffe">
+              <h2>Verwendete Begrifflichkeiten</h2>
+              <p>„Personenbezogene Daten" sind gem. Art. 4 Nr. 1 DSGVO „alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person (im Folgenden "betroffene Person") beziehen; als identifizierbar wird eine natürliche Person angesehen, die direkt oder indirekt, insbesondere mittels Zuordnung zu einer Kennung wie einem Namen, zu einer Kennnummer, zu Standortdaten, zu einer Online-Kennung oder zu einem oder mehreren besonderen Merkmalen, die Ausdruck der physischen, physiologischen, genetischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität dieser natürlichen Person sind, identifiziert werden kann".</p>
+              <p>„Verarbeitung" ist gem. Art. 4 Nr. 2 DSGVO „jede[r] mit oder ohne Hilfe automatisierter Verfahren ausgeführten Vorgang oder jede solche Vorgangsreihe im Zusammenhang mit personenbezogenen Daten wie das Erheben, das Erfassen, die Organisation, das Ordnen, die Speicherung, die Anpassung oder Veränderung, das Auslesen, das Abfragen, die Verwendung, die Offenlegung durch Übermittlung, Verbreitung oder eine andere Form der Bereitstellung, den Abgleich oder die Verknüpfung, die Einschränkung, das Löschen oder die Vernichtung".</p>
+              <p>Unter „Profiling" ist gem. Art. 4 Nr. 4 DSGVO „jede Art der automatisierten Verarbeitung personenbezogener Daten, die darin besteht, dass diese personenbezogenen Daten verwendet werden, um bestimmte persönliche Aspekte, die sich auf eine natürliche Person beziehen, zu bewerten, insbesondere um Aspekte bezüglich Arbeitsleistung, wirtschaftliche Lage, Gesundheit, persönliche Vorlieben, Interessen, Zuverlässigkeit, Verhalten, Aufenthaltsort oder Ortswechsel dieser natürlichen Person zu analysieren oder vorherzusagen" zu verstehen.</p>
+              <p>Mit „Pseudonymisierung" ist gem. Art. 4 Nr. 5 DSGVO „die Verarbeitung personenbezogener Daten in einer Weise [gemeint], dass die personenbezogenen Daten ohne Hinzuziehung zusätzlicher Informationen nicht mehr einer spezifischen betroffenen Person zugeordnet werden können, sofern diese zusätzlichen Informationen gesondert aufbewahrt werden und technischen und organisatorischen Maßnahmen unterliegen, die gewährleisten, dass die personenbezogenen Daten nicht einer identifizierten oder identifizierbaren natürlichen Person zugewiesen werden".</p>
+              <p>Ein „Dateisystem" ist gem. Art. 4 Nr. 6 DSGVO „jede strukturierte Sammlung personenbezogener Daten, die nach bestimmten Kriterien zugänglich sind, unabhängig davon, ob diese Sammlung zentral, dezentral oder nach funktionalen oder geografischen Gesichtspunkten geordnet geführt wird".</p>
+              <p>„Verantwortlicher" ist gem. Art. 4 Nr. 7 DSGVO „die natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet; sind die Zwecke und Mittel dieser Verarbeitung durch das Unionsrecht oder das Recht der Mitgliedstaaten vorgegeben, so kann der Verantwortliche beziehungsweise können die bestimmten Kriterien seiner Benennung nach dem Unionsrecht oder dem Recht der Mitgliedstaaten vorgesehen werden".</p>
+              <p>„Auftragsverarbeiter ist gem. Art. 4 Nr. 8 „eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, die personenbezogene Daten im Auftrag des Verantwortlichen verarbeitet".</p>
+              <p>„Empfänger" ist gem. Art. 4 Nr. 9 DSGVO „eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, der personenbezogene Daten offengelegt werden, unabhängig davon, ob es sich bei ihr um einen Dritten handelt oder nicht. Behörden, die im Rahmen eines bestimmten Untersuchungsauftrags nach dem Unionsrecht oder dem Recht der Mitgliedstaaten möglicherweise personenbezogene Daten erhalten, gelten jedoch nicht als Empfänger[*in]; die Verarbeitung dieser Daten durch die genannten Behörden erfolgt im Einklang mit den geltenden Datenschutzvorschriften gemäß den Zwecken der Verarbeitung".</p>
+              <p>Unter der IP-Adresse ist eine Zahlenkombination zu verstehen, die einem Gerät von einem Internet Service Provider zugewiesen wird, um dem Gerät Zugriff auf das Internet zu gewähren.</p>
+            </article>
+
+            <article class="legal-section reveal" id="rechtsgrundlagen">
+              <h2>Rechtsgrundlagen</h2>
+              <p>Gem. Art. 13 I c) DSGVO sind wir dazu verpflichtet, Ihnen die Rechtsgrundlagen unserer Datenverarbeitungen mitzuteilen. Für Nutzer*innen aus dem Geltungsbereich der Datenschutzgrundverordnung (DSGVO), der sich auf die Europäische Union (EU) und die Europäische Wirtschaftsgemeinschaft (EWG) erstreckt, gilt Folgendes mit der Maßgabe, dass keine andere Rechtsgrundlage in der Datenschutzerklärung genannt ist.</p>
+              <ul class="list">
+                <li>Art. 6 Abs. 1 lit. a und Art. 7 DSGVO ist die Rechtsgrundlage für die Verarbeitung von Daten, die von einer Einwilligung gedeckt ist.</li>
+                <li>Art. 6 Abs. 1 lit. b DSGVO ist die Rechtsgrundlage für die Verarbeitung der Daten zur Erfüllung unserer geschuldeten Leistungen, zur Durchführung vorvertraglicher Maßnahmen sowie Beantwortung von Anfragen.</li>
+                <li>Art. 6 Abs. 1 lit. c DSGVO ist die Rechtsgrundlage für die Verarbeitung zur Erfüllung unserer rechtlichen Verpflichtungen.</li>
+                <li>Art. 6 Abs. 1 lit. d DSGVO ist die Rechtsgrundlage für eine Verarbeitung personenbezogener Daten, die aufgrund lebenswichtiger Interessen der betroffenen Person oder einer anderen natürlichen Person erforderlich ist.</li>
+                <li>Art. 6 Abs. 1 lit. e DSGVO ist die Rechtsgrundlage für die Verarbeitung zur Wahrnehmung einer Aufgabe, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem Verantwortlichen übertragen wurde, soweit diese hierfür erforderlich ist.</li>
+                <li>Art. 6 Abs. 1 lit. f DSGVO ist die Rechtsgrundlage für die Verarbeitung zur Wahrung unserer berechtigten Interessen.</li>
+                <li>Art. 6 Abs. 4 DSGVO betrifft die Verarbeitung von Daten zu anderen Zwecken als denen, zu denen sie erhoben wurden. Eine solche Verarbeitung ist nur unter den hier genannten Voraussetzungen möglich.</li>
+                <li>Art. 9 Abs. 2 DSGVO stellt besondere Anforderungen an die Verarbeitung von besonderen Kategorien von Daten (entsprechend Art. 9 Abs. 1 DSGVO).</li>
+              </ul>
+            </article>
+
+            <article class="legal-section reveal" id="sicherheit">
+              <h2>Sicherheitsmaßnahmen</h2>
+              <p>Zur Sicherstellung eines dem Risiko angemessen Schutzniveaus, sorgen wir nach Maßgabe</p>
+              <ul class="list">
+                <li>der gesetzlichen Vorgaben unter Berücksichtigung des Stands der Technik,</li>
+                <li>der Implementierungskosten, der Art, des Umfangs, der Umstände und der Zwecke der Verarbeitung sowie</li>
+                <li>der unterschiedlichen Eintrittswahrscheinlichkeit und Schwere des Risikos für die Rechte und Freiheiten natürlicher Personen</li>
+              </ul>
+              <p>für geeignete technische und organisatorische Maßnahmen.</p>
+              <p>Diese Maßnahmen beinhalten insbesondere die Gewährleistung der Vertraulichkeit, Integrität und Verfügbarkeit von Daten durch</p>
+              <ul class="list">
+                <li>Kontrolle des physischen Zugangs zu den Daten,</li>
+                <li>Kontrolle des Zugriffs auf die Daten,</li>
+                <li>Kontrolle der die Daten betreffenden Eingaben, Weitergaben, der Sicherung der Verfügbarkeit sowie deren Trennung.</li>
+              </ul>
+              <p>Darüber hinaus haben wir Verfahren geschaffen, die eine Wahrnehmung von Betroffenenrechten, Löschung von Daten und Reaktion auf Gefährdung der Daten garantieren.</p>
+
+              <h3>Zusammenarbeit mit Auftragsverarbeitern, gemeinsam Verantwortlichen sowie Dritten</h3>
+              <p>Für gewisse Leistungen ist es im Zuge unserer Verarbeitung der Daten notwendig, diese gegenüber anderen Personen (in der Regel Unternehmen) zu offenbaren, d.h. an diese Daten zu übermitteln oder ihnen anderweitig Zugriff auf die Daten zu gewähren. Diese Unternehmen sind zum einen Auftragsverarbeiter oder gemeinsam Verantwortliche, zum anderen Dritte wie beispielsweise Zahlungsdienstleister. Eine solche Offenbarung erfolgt nur auf Grundlage einer gesetzlichen Erlaubnis bzw. Verpflichtung, einer Einwilligung durch den*die Nutzer*in oder auf Grundlage unserer berechtigten Interessen, die beispielsweise bei dem Einsatz von Beauftragten oder Webhostern vorliegen. Ein solches berechtigtes Interesse liegt insbesondere auch bei der Verarbeitung der Daten zu administrativen Zwecken vor.</p>
+              <p>Für den Fall, dass wir Daten anderen Unternehmen unserer Unternehmensgruppe zugänglich machen (durch Offenbarung, Übermittlung oder Zugriffsgewährung in sonstiger Form), geschieht dies insbesondere zu administrativen Zwecken. Dies stellt ein berechtigtes Interesse i.S.v. Art. 6 Abs. 1 lit. f DSGVO dar. Darüber hinaus kann Zugänglichmachung auch aufgrund einer gesetzlichen Vorgabe beruhen.</p>
+
+              <h3>Übermittlungen der Daten in Drittländer</h3>
+              <p>Eine Offenbarung, Übermittlung oder sonstige Zugänglichmachung der Daten an eine Person (hierunter fällt auch ein Unternehmen) in einem Drittland (also außerhalb der EU, EWR oder der Schweizer Eidgenossenschaft) findet bei Vorliegen der gesetzlichen Voraussetzungen statt. Dies ist insbesondere bei einer Verarbeitung zur Erfüllung unserer vertraglichen bzw. vorvertraglichen Pflichten gegeben. Ansonsten muss die Verarbeitung auf Grundlage Ihrer Einwilligung, einer rechtlichen Verpflichtung oder unserer berechtigten Interessen erfolgen. Zudem sind wir dazu verpflichtet, auch in dieser Konstellation die erforderlichen Mindeststandards zu gewährleisten. Hierzu gehört beispielsweise, dass dem jeweiligen Drittland ein der EU entsprechendes Datenschutzniveau offiziell zugesprochen wurde oder dass offiziell anerkannte spezielle vertragliche Verpflichtungen beachtet werden.</p>
+            </article>
+
+            <article class="legal-section reveal" id="betroffenenrechte">
+              <h2>Rechte der betroffenen Personen</h2>
+              <p>Sie haben das Recht bei einem entsprechenden Antrag, Auskunft darüber zu erhalten, ob Sie betreffende Daten verarbeitet werden. Darüber hinaus haben Sie entsprechend den gesetzlichen Vorgaben einen Anspruch auf weitere Informationen sowie Herausgabe in Form einer Kopie der Daten.</p>
+              <p>Sie haben ein Recht auf Vervollständigung der Sie betreffenden Daten sowie auf Berichtigung der Sie betreffenden unrichtigen Daten.</p>
+              <p>Sie haben nach Maßgabe der gesetzlichen Vorgaben einen Anspruch auf unverzügliche Löschung der Sie betreffenden Daten. Alternativ haben Sie das Recht, im Rahmen der gesetzlichen Vorgaben die Verarbeitung der Daten einzuschränken (vgl. auch Widerspruchsrecht). Sie haben nach Maßgabe der gesetzlichen Vorgaben einen Anspruch auf Bereitstellung der Sie betreffenden Daten, die Sie uns zur Verfügung gestellt haben und können auch deren Übermittlung an andere Verantwortliche verlangen. Sie haben das Recht, eine Beschwerde bei der zuständigen Aufsichtsbehörde einzureichen.</p>
+
+              <h3>Widerrufsrecht</h3>
+              <p>Sie können Ihre erteilten Einwilligungen jederzeit mit Wirkung für die Zukunft widerrufen.</p>
+
+              <h3>Widerspruchsrecht</h3>
+              <p>Sie haben das Recht, der künftigen Verarbeitung der Sie betreffenden Daten nach Maßgabe der gesetzlichen Vorgaben zu widersprechen. Der Widerspruch kann sich insbesondere auch gegen die Verarbeitung für Zwecke der Direktwerbung richten.</p>
+            </article>
+
+            <article class="legal-section reveal" id="cookies">
+              <h2>Cookies</h2>
+              <p>Wir bieten den Einsatz von temporären und permanenten Cookies an. Falls Sie mit diesem Einsatz nicht einverstanden sind, bitten wir Sie die zugehörige Option in den Systemeinstellungen ihres Browsers zu deaktivieren. Gespeicherte Cookies können in den Systemeinstellungen des Browsers gelöscht werden. Der Ausschluss von Cookies kann zu Funktionseinschränkungen dieses Onlineangebotes führen.</p>
+              <p>Mit Cookies werden kleine Dateien bezeichnet, die auf Ihrem Rechner gespeichert werden. Diese Dateien enthalten unterschiedliche Informationen. In erster Linie dienen Cookies dazu, Angaben zu einem*r Nutzer*in eines Onlineangebotes zu speichern. Insbesondere werden beispielsweise Login-Daten, Inhalt eines Warenkorbs sowie aufgerufene Artikel in einem Onlineshop oder auch allgemein aufgerufene Websites gespeichert. Dabei ist zunächst zwischen temporären und permanenten Cookies zu unterscheiden.</p>
+              <p>Temporäre Cookies werden auch „Session-Cookies" bzw. „transiente Cookies" genannt. Hierunter sind Cookies zu verstehen, die nach dem Verlassen des Onlineangebotes gelöscht werden. Dies geschieht in der Regel mit der Schließung des Browsers.</p>
+              <p>Als permanente Cookies (oder auch „persistent Cookies") bezeichnet man solche Dateien, die auch nach dem Schließen des Browsers gespeichert bleiben. So können oben genannte Angaben über die jeweilige Browser-Sitzung hinaus bestehen bleiben.</p>
+              <p>Dies ist insbesondere bei Cookies relevant, die Angaben zu Interessen von Nutzer*innen beinhalten. Diese Daten werden häufig für Reichweitenmessung oder Marketingzwecke verwendet.</p>
+              <p>Weiter ist auch zwischen sogenannten „Third-Party-Cookies", die von anderen Anbietern als dem Verantwortlichen, der das Onlineangebot betreibt, angeboten werden und sogenannten „First-Party Cookies" zu unterscheiden, die in allen anderen Fällen vorliegen.</p>
+              <p>Es ist möglich dem Einsatz der zu Zwecken des Onlinemarketing verwendeten Cookies generell zu widersprechen. Hierfür gibt es eine Vielzahl von Anbietern. Im Fall des Trackings bietet diesen Dienst die US-amerikanische Seite „<a href="http://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">http://www.aboutads.info/choices/</a>" oder die EU-Seite „<a href="http://www.youronlinechoices.com/" target="_blank" rel="noopener noreferrer">http://www.youronlinechoices.com/</a>".</p>
+              <p>Darüber hinaus kann die Speicherung von Cookies auch über deren Deaktivierung in den Einstellungen des Browsers unterbunden werden. Allerdings können durch diese Option ggf. nicht alle Funktionen dieses Onlineangebotes genutzt werden.</p>
+
+              <h3>Löschung von Daten</h3>
+              <p>Entsprechend der gesetzlichen Vorgaben löschen wir die von uns erhobenen Daten oder schränken ihre Verarbeitung ein.</p>
+              <p>Wir löschen die von uns gespeicherten Daten, sobald der der Aufbewahrung zugrundeliegende Zweck weggefallen ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen sowie keine abweichenden Regelungen in dieser Datenschutzerklärung getroffen wurden.</p>
+              <p>Sollten die Daten aufgrund der Erforderlichkeit für andere, gesetzlich zulässige Zwecke (z.B. Aufbewahrung aus handels- oder steuerrechtlichen Gründen) nicht gelöscht werden, wird deren Verarbeitung eingeschränkt. In diesem Fall werden die Daten ausschließlich für diesen Zweck verarbeitet und sind ansonsten gesperrt.</p>
+
+              <h3>Änderungen der Datenschutzerklärung</h3>
+              <p>Rechtlichen Neuerungen oder Änderungen der von uns durchgeführten Datenverarbeitungen können eine Anpassung dieser Datenschutzerklärung erforderlich machen. Aus diesem Grund bitten wir Sie, sich regelmäßig über den Inhalt unserer Datenschutzerklärung zu erkundigen. Sollte durch eine Änderung eine Mitwirkungshandlung Ihrerseits (z.B. Einwilligung) oder eine sonstige individuelle Benachrichtigung erforderlich sein, werden Sie in angemessener Form von uns informiert werden.</p>
+            </article>
+
+            <article class="legal-section reveal" id="leistungen">
+              <h2>Erbringung unserer satzungs- und geschäftsgemäßen Leistungen</h2>
+              <p>Die Verarbeitung der Daten unserer Mitglieder, Unterstützer*innen, Interessenten, Kund*innen oder sonstiger Personen zum Zwecke des Angebotes bzw. der Erfüllung von vertraglichen Leistungen erfolgt nach Maßgabe von Art. 6 Abs. 1 lit. b. DSGVO. Gleiches gilt bei einem Tätigwerden im Rahmen bestehender geschäftlicher Beziehung oder beim Empfang von Leistungen und Zuwendungen.</p>
+              <p>Ansonsten werden die Daten betroffener Personen gem. Art. 6 Abs. 1 lit. f. DSGVO auf Grundlage unserer berechtigten Interessen verarbeitet. Dies ist insbesondere der Fall, wenn es sich um administrative Aufgaben oder Öffentlichkeitsarbeit handelt. Maßgeblich für Art, Umfang und Zweck der verarbeiteten Daten sowie die Erforderlichkeit ihrer Verarbeitung ist das zugrundeliegende Vertragsverhältnis.</p>
+              <p>Zu den Daten gehören grundsätzlich</p>
+              <ul class="list">
+                <li>Bestands- und Stammdaten der Personen (z.B., Name, Adresse, etc.),</li>
+                <li>Kontaktdaten (z.B., E-Mailadresse, Telefon, etc.),</li>
+                <li>Vertragsdaten (z.B., in Anspruch genommene Leistungen, mitgeteilte Inhalte und Informationen, Namen von Kontaktpersonen) und</li>
+                <li>Zahlungsdaten (z.B., Bankverbindung, Zahlungshistorie, etc.), sofern wir zahlungspflichtige Leistungen oder Produkte anbieten.</li>
+              </ul>
+              <p>Daten, die zur Erbringung unserer satzungs- und geschäftsmäßigen Zwecke nicht mehr erforderlich sind, werden von uns gelöscht. Hierbei sind die jeweiligen Aufgaben und vertraglichen Beziehungen maßgeblich.</p>
+              <p>Daten, die eine geschäftliche Relevanz aufweisen, werden von uns so lange aufbewahrt, wie es zur umfassenden Geschäftsabwicklung notwendig ist. Dabei sind auch etwaige Gewährleistungs- oder Haftungspflichten relevant. Wir überprüfen die Erforderlichkeit der Aufbewahrung der Daten alle drei Jahre. Ansonsten gelten die gesetzlichen Aufbewahrungspflichten.</p>
+
+              <h3>Administration, Finanzbuchhaltung, Büroorganisation, Kontaktverwaltung</h3>
+              <p>Innerhalb der Wahrnehmung von Verwaltungsaufgaben sowie der Organisation unseres Betriebs, Finanzbuchhaltung und Befolgung der gesetzlichen Pflichten, wie z.B. der Archivierung, werden von uns Daten verarbeitet.</p>
+              <p>Bei diesen Daten handelt es sich um dieselben Daten, die wir zur Erbringung unserer vertraglichen Leistungen verarbeiten. Diese Verarbeitung erfolgt gem. Art. 6 Abs. 1 lit. c. DSGVO, Art. 6 Abs. 1 lit. f. DSGVO.</p>
+              <p>Von der Verarbeitung sind Kund*innen, Interessenten, Geschäftspartner*innen und Websitebesucher*innen betroffen. Der Zweck und unser Interesse an der Verarbeitung liegen in der Administration, Finanzbuchhaltung, Büroorganisation, Archivierung von Daten, also Aufgaben die der Aufrechterhaltung unserer Geschäftstätigkeiten, Wahrnehmung unserer Aufgaben und Erbringung unserer Leistungen dienen. Die Löschung der Daten im Hinblick auf vertragliche Leistungen und die vertragliche Kommunikation entspricht den, bei diesen Verarbeitungstätigkeiten genannten Angaben.</p>
+              <p>Wir offenbaren oder übermitteln hierbei Daten an die Finanzverwaltung, Berater*innen, wie z.B., Steuerberater*in oder Wirtschaftsprüfer*in sowie weitere Gebührenstellen und Zahlungsdienstleister.</p>
+              <p>Ferner speichern wir auf Grundlage unserer betriebswirtschaftlichen Interessen Angaben zu Lieferant*innen, Veranstalter*innen und sonstigen Geschäftspartner*innen, z.B. zwecks späterer Kontaktaufnahme. Diese mehrheitlich unternehmensbezogenen Daten, speichern wir grundsätzlich dauerhaft.</p>
+            </article>
+
+            <article class="legal-section reveal" id="microsoft">
+              <h2>Microsoft Cloud-Dienste</h2>
+              <p>Wir nutzen die Cloud, die durch Microsoft bereitgestellt wird, sowie deren Cloud-Softwaredienste (sog. „Software as a Service"), um</p>
+              <ul class="list">
+                <li>Dokumente auszutauschen, zu speichern und zu verwalten,</li>
+                <li>E-Mails zu versenden,</li>
+                <li>Kalender zu organisieren,</li>
+                <li>Tabellenkalkulationen und Präsentationen zu erstellen,</li>
+                <li>Inhalte, Informationen und Formulare mit bestimmten Empfängern zu teilen,</li>
+                <li>Webseiten zu veröffentlichen,</li>
+                <li>Unterhaltungen im Rahmen von „Chats" abzuhalten oder</li>
+                <li>Audio- und Videokonferenzen zu führen.</li>
+              </ul>
+              <p>Die Microsoft Cloud-Dienste werden von Microsoft Corporation, One Microsoft Way, Redmond, WA 98052-6399 USA angeboten. Bei der Nutzung des Dienstes werden personenbezogene Daten der Nutzer*innen verarbeitet. Hiervon sind alle Daten betroffen, die Bestandteil der im Rahmen der aufgelisteten Dienste verarbeiteten Dokumente und Inhalte werden. Darüber hinaus umfasst die Verarbeitung auch alle Daten, die einen Teil von Kommunikationsvorgängen darstellen. Insbesondere werden Stamm- und Kontaktdaten der Nutzer*innen, Daten zu Vorgängen, Verträgen, sonstigen Prozessen und deren Inhalte verarbeitet. Ferner verarbeitet Microsoft zum Zwecke der Sicherheit sowie der Verbesserungen des Services Nutzungs- und Metadaten. Bei der Nutzung öffentlich zugänglicher Dokumente, Webseiten oder sonstiger Inhalte, speichert Microsoft Cookies auf den Geräten der Nutzer*innen für Zwecke der Webanalyse oder damit von dem*der Nutzer*in getätigte Einstellungen, die auch bei der nächsten Sitzung wieder vorhanden sind. Wir nutzen die Microsoft Cloud-Dienste auf Grundlage der Wahrnehmung unserer berechtigten Interessen gem. Art. 6 Abs. 1 lit. f DSGVO an effizienten und sicheren Verwaltungs- und Zusammenarbeitsprozessen. Ferner erfolgt die Verarbeitung auf Grundlage eines Auftragsverarbeitungsvertrages, welchen wir mit Microsoft abgeschlossen haben.</p>
+              <p>Weitere Hinweise erhalten Sie in der <a href="https://privacy.microsoft.com/de-de/privacystatement" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Microsoft</a> und den <a href="https://www.microsoft.com/de-de/trustcenter" target="_blank" rel="noopener noreferrer">Sicherheitshinweisen zu Microsoft Cloud-Diensten</a>.</p>
+              <p>Nutzer*innen können der Verarbeitung ihrer Daten in der Microsoft Cloud uns gegenüber entsprechend den gesetzlichen Vorgaben widersprechen, was eine Löschung ihrer Daten zur Folge hat. In sonstigen Fällen bestimmt sich die Löschung der Daten innerhalb der Cloud-Dienste nach den übrigen Verarbeitungsprozessen, in deren Rahmen die Daten verarbeitet werden. So werden beispielsweise Daten, die für Vertragszwecke nicht mehr erforderlich sind, gelöscht, sofern diese auch für sonstige Zwecke, wie z.B. die Besteuerung, nicht mehr erforderlich sind.</p>
+            </article>
+
+            <article class="legal-section reveal" id="bewerbung">
+              <h2>Datenschutzhinweise im Bewerbungsverfahren</h2>
+              <p>Wir verarbeiten Bewerber*innendaten nur zum Zweck und innerhalb des Bewerbungsverfahrens im Rahmen der gesetzlichen Vorgaben. Die Verarbeitung der Bewerber*innendaten erfolgt zur Erfüllung unserer vertraglichen bzw. vorvertraglichen Verpflichtungen im Rahmen des Bewerbungsverfahrens gem. Art. 6 Abs. 1 lit. b. DSGVO Art. 6 Abs. 1 lit. f. DSGVO, sofern die Datenverarbeitung, z.B. im Rahmen von rechtlichen Verfahren, für uns erforderlich wird, wobei hier zusätzlich § 26 BDSG zu beachten ist.</p>
+              <p>Das Bewerbungsverfahren wird erst durch Mitteilung aller notwendigen Bewerber*innendaten durch den*die Bewerber*in an uns eröffnet. Diese sind, sofern wir ein Onlineformular anbieten, ausdrücklich gekennzeichnet. Ansonsten ergeben sie sich aus unseren Stellenbeschreibungen oder Ausschreibungen, wobei grundsätzlich die Angaben zur Person, Post- und Kontaktadressen sowie die zur Bewerbung gehörenden Unterlagen, wie Anschreiben, Lebenslauf und die Zeugnisse erfasst sind. Darüber hinaus können uns Bewerber*innen freiwillig zusätzliche Informationen mitteilen.</p>
+              <p>Mit der Übermittlung der Bewerbung an uns, erklären sich die Bewerber*innen mit der Verarbeitung ihrer Daten zu Zwecken des Bewerbungsverfahrens entsprechend der in dieser Datenschutzerklärung dargelegten Art und Umfang einverstanden.</p>
+              <p>Sollten innerhalb des Bewerbungsverfahrens freiwillig besondere Kategorien von personenbezogenen Daten gem. Art. 9 Abs. 1 DSGVO mitgeteilt werden, erfolgt deren Verarbeitung zusätzlich nach Art. 9 Abs. 2 lit. a DSGVO. Dies betrifft insbesondere Gesundheitsdaten oder Angaben zur ethnischen Herkunft.</p>
+              <p>Soweit im Rahmen des Bewerbungsverfahrens besondere Kategorien von personenbezogenen Daten im Sinne des Art. 9 Abs. 1 DSGVO bei Bewerber*innen angefragt werden, erfolgt deren Verarbeitung zusätzlich nach Art. 9 Abs. 2 lit. a DSGVO. Dies ist insbesondere bei Gesundheitsdaten der Fall, sofern diese für die Berufsausübung erforderlich sind.</p>
+              <p>Sofern vorhanden, können uns Bewerber*innen ihre Bewerbungen mittels eines Onlineformulars auf unserer Website übermitteln. Diese Übermittlung erfolgt entsprechend dem Stand der Technik verschlüsselt.</p>
+              <p>Weiter können Bewerber*innen ihre Bewerbungen auch als E-Mail an uns übermitteln. Hierbei ist jedoch zu beachten, dass E-Mails grundsätzlich nicht verschlüsselt versendet werden und die Bewerber*innen selbst für die Verschlüsselung verantwortlich sind. Aus diesem Grund empfehlen wir daher, ein Online-Formular oder den postalischen Versand, der datenschutztechnisch wohl am sichersten ist, zu nutzen.</p>
+              <p>Die Daten, die von den Bewerber*innen innerhalb ihrer Bewerbung zur Verfügung gestellt wurden, können im Fall einer erfolgreichen Bewerbung für die Zwecke des Beschäftigungs- oder Nutzungsverhältnisses von uns weiterverarbeitet werden. War hingegen die Bewerbung auf ein Stellenangebot oder eine Ausschreibung nicht erfolgreich, so werden die Daten der Bewerber*innen gelöscht. Die Daten der Bewerber*innen werden auch gelöscht, wenn eine Bewerbung zurückgezogen wird, wozu die Bewerber*innen jederzeit berechtigt sind.</p>
+              <p>Die Löschung erfolgt, vorbehaltlich eines berechtigten Widerrufs der Bewerber*innen, nach dem Ablauf eines Zeitraums von sechs Monaten, damit wir etwaige Anschlussfragen zu der Bewerbung beantworten und unsere Nachweispflichten aus dem Gleichbehandlungsgesetz erfüllen können. Rechnungen über etwaige Reisekostenerstattung werden entsprechend den steuerrechtlichen Vorgaben archiviert.</p>
+
+              <h3>Talent-Pool</h3>
+              <p>Im Rahmen der Bewerbung bieten wir den Bewerber*innen die Möglichkeit an, in unseren „Talent-Pool" für einen Zeitraum von zwei Jahren auf Grundlage einer Einwilligung gem. Art. 6 Abs. 1 lit. a. und Art. 7 DSGVO aufgenommen zu werden.</p>
+              <p>Die Bewerbungsunterlagen im Talent-Pool werden ausschließlich im Rahmen von künftigen Stellenausschreibungen und der Beschäftigtensuche verarbeitet. Eine Vernichtung der Unterlagen erfolgt spätestens nach Ablauf der Frist.</p>
+              <p>Die Bewerber*innen werden darüber belehrt, dass deren Einwilligung in die Aufnahme in den Talent-Pool freiwillig ist, keinen Einfluss auf das aktuelle Bewerbungsverfahren hat und sie diese Einwilligung jederzeit für die Zukunft widerrufen sowie Widerspruch im Sinne des Art. 21 DSGVO erklären können.</p>
+
+              <h3>Kontaktaufnahme</h3>
+              <p>Im Rahmen der Kontaktaufnahme mit uns, die per Kontaktformular, E-Mail, Telefon, Fax oder über soziale Medien möglich ist, werden die Angaben des*der Nutzers*in zur Bearbeitung und Abwicklung der Kontaktanfrage verarbeitet. Die Rechtsgrundlage hinsichtlich vertraglicher-/vorvertraglicher Beziehungen ergibt sich aus Art. 6 Abs. 1 lit. b. DSGVO. Hinsichtlich sonstiger Anfragen ist Art. 6 Abs. 1 lit. f. DSGVO einschlägig. Die Angaben der Nutzer*innen werden grundsätzlich in einem Customer-Relationship-Management System ("CRM System") oder vergleichbarer Anfragenorganisation gespeichert. Wir löschen die gewonnenen Daten hinsichtlich der Anfrage, sofern diese nicht mehr erforderlich sind. Die Überprüfung die Erforderlichkeit erfolgt alle zwei Jahre. Ansonsten gelten die gesetzlichen Archivierungspflichten.</p>
+            </article>
+
+            <article class="legal-section reveal" id="hosting">
+              <h2>Hosting und E-Mail-Versand</h2>
+              <p>Für den Betrieb unseres Onlineangebotes greifen wir auf externe Hosting-Leistungen zurück. Dies betrifft:</p>
+              <ul class="list">
+                <li>Infrastruktur- und Plattformdienstleistungen,</li>
+                <li>Rechenkapazitäts-, Speicherplatz- und Datenbankdienste,</li>
+                <li>E-Mail-Versand-Dienste sowie</li>
+                <li>Sicherheitsleistungen und technische Wartungsleistungen.</li>
+              </ul>
+              <p>Im Rahmen der Wahrnehmung unserer berechtigten Interessen an einer effizienten und sicheren Zurverfügungstellung dieses Onlineangebotes gem. Art. 6 Abs. 1 lit. f DSGVO i.V.m. Art. 28 DSGVO (Abschluss Auftragsverarbeitungsvertrag), werden hierbei durch uns oder unseren Hostinganbieter insbesondere folgende Daten verarbeitet:</p>
+              <ul class="list">
+                <li>Bestands- und Kontaktdaten,</li>
+                <li>Inhaltsdaten und Vertragsdaten sowie</li>
+                <li>Nutzungs-, Meta- und Kommunikationsdaten.</li>
+              </ul>
+              <p>Diese Datenverarbeitung betrifft sowohl unsere Kund*innen als auch Interessenten und Besucher*innen unseres Onlineangebotes.</p>
+
+              <h3>Erhebung von Zugriffsdaten und Logfiles</h3>
+              <p>Auf Grundlage der Wahrnehmung unserer berechtigten Interessen gem. Art. 6 Abs. 1 lit. f. DSGVO werden von uns oder auch von unserem Hostinganbieter Daten über jeden Zugriff auf den Server, auf dem sich dieser Dienst befindet (sogenannte Serverlogfiles), erhoben. Zu diesen Daten gehören</p>
+              <ul class="list">
+                <li>Name der abgerufenen Webseite sowie ggf. bestimmter Dateien,</li>
+                <li>Datum und Uhrzeit des Abrufs,</li>
+                <li>übertragene Datenmenge,</li>
+                <li>Meldung über erfolgreichen Abruf,</li>
+                <li>Browsertyp nebst Version das Betriebssystem des*der Nutzers*in,</li>
+                <li>Referrer URL (die zuvor besuchte Seite),</li>
+                <li>IP-Adresse und</li>
+                <li>der anfragende Provider.</li>
+              </ul>
+              <p>Logfile-Informationen werden aus Sicherheitsgründen für die Dauer von bis zu sieben Tagen gespeichert und danach gelöscht. Dies dient insbesondere der Aufklärung von Missbrauchs- bzw. Betrugshandlungen. Sofern Daten als Beweise zur Aufklärung eines Sachverhaltes geeignet sind, werden sie bis zur endgültigen Klärung des jeweiligen Vorfalles von der Löschung ausgenommen.</p>
+            </article>
+
+            <article class="legal-section reveal" id="drittanbieter">
+              <h2>Einbindung von Diensten und Inhalten Dritter</h2>
+              <p>Im Rahmen unseres Onlineangebotes setzen wir auf Grundlage der Wahrnehmung unserer berechtigten Interessen, die hier vorrangig in dem Interesse an der Analyse, der Optimierung und dem wirtschaftlichen Betrieb unseres Onlineangebotes gem. Art. 6 Abs. 1 lit. f. DSGVO bestehen, Inhalts- oder Serviceangebote von Drittanbietern ein, um deren Inhalte und Dienste einzubinden. Dies betrifft z.B. die Einbindung von Videos bzw. Schriftarten. Für eine Einbindung von Inhalten und Diensten der Drittanbieter muss diesen die IP-Adresse der Nutzer*innen bekannt sein, da ansonsten keine Übermittlung an deren Browser stattfinden kann. Die IP-Adresse ist damit für die Darstellung dieser Inhalte und Einbindung von Diensten unerlässlich.</p>
+              <p>Wir sind bestrebt, nur solche Inhalte und Dienste einzubinden, deren jeweilige Anbieter die IP-Adresse ausschließlich zur Zurverfügungstellung der Inhalte und Dienste verwenden. Drittanbieter können darüber hinaus sog. Pixel-Tags für statistische oder marketingbezogenen Zwecke verwenden. Unter einem Pixel-Tag, der auch als „Web Beacon" bezeichnet wird, sind unsichtbare pixelgroße Grafiken zu verstehen. Durch sie kann der Besucher*innenverkehr auf den einzelnen Websites eines Onlineangebotes ermittelt werden. Die pseudonymisierten Informationen können auch in Form von sog. Cookies auf dem Gerät der Nutzer*innen gespeichert werden. Diese enthalten insbesondere technische Informationen zum Browser und Betriebssystem, verweisende Webseiten, Besuchszeit sowie weitere Angaben zur Nutzung unseres Onlineangebotes. Darüber hinaus können diese Informationen auch mit derartigen Informationen aus anderen Quellen verbunden werden. Dies ist insbesondere dann der Fall, wenn die Nutzer*innen als Mitglieder der jeweiligen Plattformen auf verschiedenen Geräten bei diesen eingeloggt sind.</p>
+
+              <h3>Youtube</h3>
+              <p>Wir binden die Videos der Plattform "YouTube" des Anbieters Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, ein. Datenschutzerklärung: <a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">https://www.google.com/policies/privacy/</a>, Opt-Out: <a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener noreferrer">https://adssettings.google.com/authenticated</a>.</p>
+
+              <h3>Google Maps</h3>
+              <p>Wir binden die Landkarten des Dienstes "Google Maps" des Anbieters Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, ein. Zu den verarbeiteten Daten können insbesondere IP-Adressen und Standortdaten der Nutzer*innen gehören, die jedoch nicht ohne deren Einwilligung (im Regelfall im Rahmen der Einstellungen ihrer Mobilgeräte vollzogen), erhoben werden. Die Daten können in den USA verarbeitet werden. Weitere Informationen können Sie der Datenschutzerklärung von Google entnehmen: <a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">https://www.google.com/policies/privacy/</a>, Opt-Out: <a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener noreferrer">https://adssettings.google.com/authenticated</a>.</p>
+
+              <h3>OpenStreetMap</h3>
+              <p>Wir binden die Landkarten des Dienstes "OpenStreetMap" ein (<a href="https://www.openstreetmap.de" target="_blank" rel="noopener noreferrer">https://www.openstreetmap.de</a>), die auf Grundlage der Open Data Commons Open Database Lizenz (ODbL) durch die OpenStreetMap Foundation (OSMF) angeboten werden.</p>
+              <p>Nach unserer Kenntnis werden die Daten der Nutzer*innen durch „OpenStreetMap" ausschließlich zu Zwecken der Darstellung der Kartenfunktionen und Zwischenspeicherung der gewählten Einstellungen verwendet. Zu diesen Daten können insbesondere IP-Adressen und Standortdaten der Nutzer*innen gehören, die jedoch nicht ohne deren Einwilligung (im Regelfall im Rahmen der Einstellungen ihrer Mobilgeräte vollzogen), erhoben werden. Die Daten können in den USA verarbeitet werden. Weitere Informationen können Sie der Datenschutzerklärung von „OpenStreetMap" entnehmen: <a href="https://wiki.openstreetmap.org/wiki/Privacy_Policy" target="_blank" rel="noopener noreferrer">https://wiki.openstreetmap.org/wiki/Privacy_Policy</a>.</p>
+            </article>
+
+            <article class="legal-section reveal" id="soziale-netzwerke">
+              <h2>Soziale Netzwerke</h2>
+              <p>Wir betreiben Präsenzen in sozialen Netzwerken und verarbeiten diesbezüglich personenbezogene Daten der Nutzer*innen zur Kommunikation oder Information. Hierbei können auch personenbezogene Daten der Nutzer*innen in Ländern außerhalb der EU weitergeleitet werden, wodurch sich eventuell Risiken ergeben (z.B. erschwerte Rechtsdurchsetzung). Innerhalb der sozialen Netzwerke können personenbezogene Daten der Nutzer*innen für Marketingzwecke verarbeitet werden. Aus dem Nutzungsverhalten der Nutzer*innen können hierbei Nutzungsprofile erstellt werden. Auf Basis dieser Nutzungsprofile können auch außerhalb der sozialen Netzwerke Werbeanzeigen eingeblendet werden. Dies geschieht mithilfe der Speicherung von Cookies auf der Hardware der Nutzer*innen. In diesen Dateien werden das Nutzungsverhalten und die Interessen des*der Nutzers*in gespeichert. Eine Speicherung von personenbezogenen Daten im Nutzungsprofil ist jedoch nicht abhängig von einem bestimmten Endgerät.</p>
+              <p>Weitere Informationen zu der konkreten Datenverarbeitung und den Widerspruchsmöglichkeiten finden Sie in den Datenschutzerklärungen und Angaben der jeweiligen Plattformbetreiber. Im Falle der Geltendmachung von Betroffenenrechten nach DSGVO können diese am schnellsten bei dem jeweiligen Plattformanbieter geltend gemacht werden. Die Plattformanbieter haben Zugriff auf die Nutzer*innendaten und können Maßnahmen zur Ausübung der Betroffenenrechte ergreifen. Zudem haben sie auch das Recht, sich im Fall der Geltendmachung von Betroffenenrechten direkt an uns zu wenden.</p>
+
+              <h3>Unsere Präsenz auf Facebook und Instagram</h3>
+              <p>Mit Facebook Ireland Ltd. (4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Irland, Mutterunternehmen: Facebook, 1 Hacker Way, Menlo Park, CA 94025, USA; Website: <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">https://www.facebook.com</a>; Datenschutzerklärung: <a href="https://www.facebook.com/about/privacy" target="_blank" rel="noopener noreferrer">https://www.facebook.com/about/privacy</a>; Widerspruchsmöglichkeit (Opt-Out): Einstellungen für Werbeanzeigen: <a href="https://www.facebook.com/settings?tab=ads" target="_blank" rel="noopener noreferrer">https://www.facebook.com/settings?tab=ads</a>) besteht eine gemeinsame Verantwortlichkeit bezüglich der Erhebung personenbezogener Daten der Besucher*innen unserer Facebook-Seite.</p>
+              <p>Die weitere Datenverarbeitung findet nicht in gemeinsamer Verantwortlichkeit statt. Betroffene Personen der Datenverarbeitung sind die Nutzer*innen dieser Dienste. Rechtsgrundlage ist die Wahrnehmung unserer berechtigten Interessen gemäß Art. 6 Abs. 1 Satz 1 lit. f DSGVO. Zu den verarbeiteten Datenarten gehören insbesondere Bestandsdaten, Kontaktdaten, Inhaltsdaten wie Eingaben in Formulare, Nutzungsdaten, Kommunikationsdaten wie Geräteinformationen oder IP-Adressen. Weiterhin werden Informationen zu den Inhalten, welche von dem*der Nutzer*in aufgerufen werden oder ausgeführte Aktionen erhoben.</p>
+              <p>Zwecke der Datenverarbeitung und maßgebliche Interessen sind Kommunikation, Tracking und Profiling sowie Marketing inklusive Reichweitenmessung. Hierbei verwendet Facebook die personenbezogenen Daten auch um Analysedaten, sogenannte „Seiten Insights" für den jeweiligen Betreiber der Seite zur Verfügung zu stellen. Der Betreiber der jeweiligen Seite kann hierdurch nachvollziehen wie Besucher*innen der Seite mit den jeweiligen Inhalten in Aktion treten. Wir haben diesbezüglich mit Facebook eine Vereinbarung abgeschlossen (<a href="https://www.facebook.com/legal/terms/page_controller_addendum" target="_blank" rel="noopener noreferrer">https://www.facebook.com/legal/terms/page_controller_addendum</a>). In diesem Rahmen werden Sicherheitsmaßnahmen festgeschrieben sowie die Pflicht von Facebook die Betroffenenrechte von Nutzer*innen direkt zu bearbeiten. Durch diese Vereinbarung werden die Rechte der Nutzer*innen auf Auskunft, Löschung, Widerspruch und Beschwerde bei der zuständigen Aufsichtsbehörde nicht eingeschränkt. Zusätzliche Informationen zu diesem Analysedaten finden Sie unter <a href="https://www.facebook.com/legal/terms/information_about_page_insights_data" target="_blank" rel="noopener noreferrer">https://www.facebook.com/legal/terms/information_about_page_insights_data</a>.</p>
+            </article>
+
+          </div><!-- /content-body -->
+        </div><!-- /content-grid -->
+      </div><!-- /wrap -->
+    </section>
+
+  </main>
+
+  <!-- ─── Footer ──────────────────────────────────── -->
+  <footer class="footer" aria-label="Seitenfußbereich">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <span style="display:block;font-size:22px;letter-spacing:0.12em;">KÜR</span>
+            <span style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:rgba(244,241,235,0.35);font-weight:400;margin-top:3px;line-height:1.5;">Kunstübungsraum<br>Milbertshofen</span>
+          </div>
+          <address class="footer-address">
+            Alter-St.-Georgs-Platz 4<br>
+            80809 München<br>
+            U-Bahn: Frankfurter Ring
+          </address>
+        </div>
+        <nav aria-label="Footer Navigation">
+          <p class="footer-col-label">Navigation</p>
+          <ul class="footer-nav">
+            <li><a href="ueber-uns.html">Über Uns</a></li>
+            <li><a href="programm.html">Programm</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+            <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
+            <li><a href="archiv.html">Archiv</a></li>
+          </ul>
+        </nav>
+        <div class="footer-contact">
+          <p class="footer-col-label">Kontakt</p>
+          <a href="mailto:info@kuer-milbertshofen.de">info@kuer-milbertshofen.de</a>
+          <a href="https://instagram.com/kunstuebungsraum" target="_blank" rel="noopener noreferrer">@kunstuebungsraum</a>
+          <p class="sub-label">Koordination</p>
+          <p>Lukas Gschnitzer &amp; Eveline Reinholz</p>
+          <p class="sub-label">Träger</p>
+          <p>Stadtteilarbeit e.V.<br>Kontrapunkt gGmbH / IMAL</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 KÜR – Kunstübungsraum Milbertshofen</p>
+        <div class="footer-legal">
+          <a href="impressum.html">Impressum &amp; Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+
+    const burger  = document.getElementById('navBurger');
+    const overlay = document.getElementById('navOverlay');
+    burger.addEventListener('click', () => {
+      const open = overlay.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        overlay.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', false);
+        document.body.style.overflow = '';
+      });
+    });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
