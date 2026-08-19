@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Archiv – KÜR Kunstübungsraum Milbertshofen">
+  <title>Archiv – KÜR</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+    :root {
+      --bg:      #F4F1EB;
+      --ink:     #0F0F0E;
+      --green:   #3DB53A;
+      --muted:   #9A9590;
+      --faint:   #C8C4BC;
+      --rule:    #D4D0C8;
+      --paper:   #FFFFFF;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --container: 1400px;
+      --pad-x:     80px;
+      --pad-s:     104px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    .wrap {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    /* ─── Scroll Reveal ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    .delay-1 { transition-delay: 0.10s; }
+    .delay-2 { transition-delay: 0.20s; }
+
+    /* ─────────────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      padding: 12px var(--pad-x);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: var(--ink);
+      transition: opacity 0.3s ease;
+      text-align: center;
+    }
+    .nav-logo:hover { opacity: 0.7; }
+    .nav-logo-kuer {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: 0.12em;
+      line-height: 1;
+    }
+    .nav-logo-sub {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      color: rgba(15,15,14,0.55);
+      line-height: 1.4;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 72px;
+    }
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      position: relative;
+      padding-bottom: 3px;
+      transition: color 0.3s ease;
+    }
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .nav-burger span {
+      display: block;
+      width: 26px; height: 1.5px;
+      background: rgba(15,15,14,0.7);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--green);
+      z-index: 190;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .nav-overlay.open { display: flex; }
+    .nav-overlay a {
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+    }
+    .nav-overlay a:hover { opacity: 1; }
+
+    /* ─────────────────────────────────────────────────
+       PAGE HEADER
+    ───────────────────────────────────────────────── */
+    .page-header {
+      padding: calc(var(--pad-s) + 80px) var(--pad-x) 72px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .page-header-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green);
+      display: block;
+      margin-bottom: 32px;
+    }
+    .page-header-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+    }
+    .page-header h1 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(52px, 8vw, 120px);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+    .page-header-intro {
+      font-size: clamp(16px, 1.6vw, 22px);
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 480px;
+      padding-bottom: 8px;
+    }
+
+    /* ─────────────────────────────────────────────────
+       ARCHIVE ENTRIES
+    ───────────────────────────────────────────────── */
+    .archive-list {
+      padding: 0 0 120px;
+    }
+
+    .archive-entry {
+      border-bottom: 1px solid var(--rule);
+      padding: 64px 0;
+    }
+    .archive-entry:first-child {
+      border-top: none;
+    }
+
+    .archive-entry-inner {
+      display: grid;
+      grid-template-columns: 3fr 7fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* Left: meta column */
+    .archive-meta {
+      padding-top: 6px;
+      position: sticky;
+      top: 100px;
+    }
+    .archive-date {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 12px;
+    }
+    .archive-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    /* Right: content column */
+    .archive-content { display: flex; flex-direction: column; gap: 28px; }
+
+    .archive-title {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: clamp(32px, 4.5vw, 64px);
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+    .archive-subtitle {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: clamp(14px, 1.4vw, 18px);
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 640px;
+    }
+    .archive-body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(15,15,14,0.72);
+      max-width: 640px;
+    }
+
+    /* Image placeholder */
+    .archive-img {
+      width: 100%;
+      aspect-ratio: 16/7;
+      background: var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .archive-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .archive-img-ph {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--faint);
+      letter-spacing: 0.12em;
+    }
+
+    /* Participants row */
+    .archive-participants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 4px;
+    }
+    .archive-participant {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--rule);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* ─────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────── */
+    .footer {
+      background: var(--green);
+      padding: var(--pad-s) 0 40px;
+      font-family: var(--font-body);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr;
+      gap: 64px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid rgba(15,15,14,0.12);
+    }
+    .footer-logo {
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .footer-address {
+      font-size: 13px;
+      line-height: 1.9;
+      font-style: normal;
+      color: rgba(15,15,14,0.5);
+    }
+    .footer-col-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(15,15,14,0.4);
+      margin-bottom: 16px;
+    }
+    .footer-nav { display: flex; flex-direction: column; gap: 10px; }
+    .footer-nav a {
+      font-size: 14px;
+      color: rgba(15,15,14,0.6);
+      transition: color 0.2s ease;
+    }
+    .footer-nav a:hover { color: var(--ink); }
+    .footer-contact { display: flex; flex-direction: column; }
+    .footer-contact a,
+    .footer-contact p {
+      font-size: 13px;
+      line-height: 1.9;
+      color: rgba(15,15,14,0.6);
+    }
+    .footer-contact a { transition: color 0.2s ease; }
+    .footer-contact a:hover { color: var(--ink); }
+    .footer-contact .sub-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(15,15,14,0.35);
+      margin-top: 18px;
+      margin-bottom: 2px;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+    }
+    .footer-copy {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: rgba(15,15,14,0.35);
+      letter-spacing: 0.06em;
+    }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: rgba(15,15,14,0.45);
+      letter-spacing: 0.06em;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s ease;
+    }
+    .footer-legal a:hover { color: var(--ink); }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 1024px) {
+      :root { --pad-x: 48px; }
+      .archive-entry-inner { grid-template-columns: 1fr; gap: 24px; }
+      .archive-meta { position: static; }
+    }
+    @media (max-width: 768px) {
+      :root { --pad-x: 24px; --pad-s: 56px; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .page-header-inner { grid-template-columns: 1fr; gap: 24px; }
+      .archive-entry { padding: 48px 0; }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Navigation ───────────────────────────────── -->
+  <nav class="nav" id="nav" aria-label="Hauptnavigation">
+    <a href="index.html" class="nav-logo" aria-label="KÜR Startseite">
+      <span class="nav-logo-kuer">KÜR</span>
+      <span class="nav-logo-sub">Kunstübungsraum</span>
+      <span class="nav-logo-sub">Milbertshofen</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html#ueber-uns">Über Uns</a></li>
+      <li><a href="index.html#programm">Programm</a></li>
+      <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
+      <li><a href="archiv.html" class="active">Archiv</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
+    </ul>
+    <button class="nav-burger" id="navBurger" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" id="navOverlay" role="dialog" aria-label="Hauptnavigation mobil">
+    <a href="index.html#ueber-uns">Über Uns</a>
+    <a href="index.html#programm">Programm</a>
+    <a href="nutzerinnen.html">Nutzer*innen</a>
+    <a href="archiv.html">Archiv</a>
+    <a href="index.html#kontakt">Kontakt</a>
+  </div>
+
+  <main>
+
+    <!-- ─── Page Header ──────────────────────────────── -->
+    <header class="page-header">
+      <div class="wrap">
+        <span class="page-header-label reveal">KÜR – Kunstübungsraum Milbertshofen</span>
+        <div class="page-header-inner">
+          <h1 class="reveal">Archiv</h1>
+          <p class="page-header-intro reveal delay-1">Was war. Was bleibt. Vergangene Veranstaltungen, Ausstellungen und Workshops im KÜR.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─── Archive Entries ───────────────────────────── -->
+    <section class="archive-list" aria-label="Archiveinträge">
+      <div class="wrap">
+
+        <!-- Entry 1 -->
+        <article class="archive-entry">
+          <div class="archive-entry-inner">
+            <div class="archive-meta reveal">
+              <span class="archive-date">Mai 2025</span>
+              <span class="archive-tag">Open Studios</span>
+            </div>
+            <div class="archive-content">
+              <h2 class="archive-title reveal">Open Studios</h2>
+              <p class="archive-subtitle reveal delay-1">Offene Ateliers und Ausstellungen im KÜR.</p>
+              <p class="archive-body reveal delay-1">Einmal im Jahr öffnet das KÜR seine Türen und lädt alle Interessierten ein, die Arbeiten der Nutzer*innen hautnah zu erleben. Im Rahmen der Open Studios präsentierten Künstler*innen ihre aktuellen Projekte, gaben Einblicke in ihre Arbeitsweisen und traten in direkten Austausch mit dem Publikum.</p>
+              <div class="archive-participants reveal delay-2">
+                <span class="archive-participant">Anna M.</span>
+                <span class="archive-participant">Kojo B.</span>
+                <span class="archive-participant">Lena S.</span>
+                <span class="archive-participant">Felix R.</span>
+                <span class="archive-participant">Mia K.</span>
+                <span class="archive-participant">+ 7 weitere</span>
+              </div>
+              <div class="archive-img reveal delay-2">
+                <div class="archive-img-ph">[ Foto ]</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Entry 2 -->
+        <article class="archive-entry">
+          <div class="archive-entry-inner">
+            <div class="archive-meta reveal">
+              <span class="archive-date">März 2025</span>
+              <span class="archive-tag">Workshop</span>
+            </div>
+            <div class="archive-content">
+              <h2 class="archive-title reveal">Urbane Fotografie</h2>
+              <p class="archive-subtitle reveal delay-1">Gemeinsames Arbeiten und Sichtbarmachen.</p>
+              <p class="archive-body reveal delay-1">In diesem zweitägigen Workshop erkundeten die Teilnehmer*innen den Stadtteil Milbertshofen mit der Kamera. Unter Anleitung von Kojo B. entstanden dokumentarische und künstlerische Fotografien, die den öffentlichen Raum, die Menschen und die Atmosphäre des Viertels festhalten.</p>
+              <p class="archive-body reveal delay-2">Die entstandenen Arbeiten wurden anschließend im KÜR ausgestellt und sind Teil des wachsenden Bildarchivs des Kunstübungsraums.</p>
+              <div class="archive-img reveal delay-2">
+                <div class="archive-img-ph">[ Foto ]</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Entry 3 -->
+        <article class="archive-entry">
+          <div class="archive-entry-inner">
+            <div class="archive-meta reveal">
+              <span class="archive-date">Februar 2025</span>
+              <span class="archive-tag">Veranstaltung</span>
+            </div>
+            <div class="archive-content">
+              <h2 class="archive-title reveal">Eröffnung KÜR</h2>
+              <p class="archive-subtitle reveal delay-1">Der Kunstübungsraum Milbertshofen öffnet seine Türen.</p>
+              <p class="archive-body reveal delay-1">Mit einer Eröffnungsveranstaltung stellte sich das KÜR dem Stadtteil vor. Workshops, Performances und Ausstellungsbeiträge der ersten Nutzer*innen gaben einen Vorgeschmack auf das, was der neue Kulturort für Milbertshofen bedeutet — ein offener Raum für Kunst, Austausch und gemeinschaftliches Arbeiten.</p>
+              <div class="archive-participants reveal delay-2">
+                <span class="archive-participant">Stadtteilarbeit e.V.</span>
+                <span class="archive-participant">Kontrapunkt gGmbH / IMAL</span>
+              </div>
+              <div class="archive-img reveal delay-2">
+                <div class="archive-img-ph">[ Foto ]</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── Footer ──────────────────────────────────── -->
+  <footer class="footer" aria-label="Seitenfußbereich">
+    <div class="wrap">
+      <div class="footer-grid">
+
+        <div>
+          <div class="footer-logo">
+            <span style="display:block;font-size:22px;letter-spacing:0.12em;">KÜR</span>
+            <span style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:rgba(15,15,14,0.4);font-weight:400;margin-top:3px;line-height:1.5;">Kunstübungsraum<br>Milbertshofen</span>
+          </div>
+          <address class="footer-address">
+            Alter-St.-Georgs-Platz 4<br>
+            80809 München<br>
+            U-Bahn: Frankfurter Ring
+          </address>
+        </div>
+
+        <nav aria-label="Footer Navigation">
+          <p class="footer-col-label">Navigation</p>
+          <ul class="footer-nav">
+            <li><a href="index.html#ueber-uns">Über Uns</a></li>
+            <li><a href="index.html#programm">Programm</a></li>
+            <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
+            <li><a href="archiv.html">Archiv</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer-contact">
+          <p class="footer-col-label">Kontakt</p>
+          <p class="sub-label">E-Mail</p>
+          <a href="mailto:info@kuer-milbertshofen.de">info@kuer-milbertshofen.de</a>
+          <p class="sub-label">Instagram</p>
+          <a href="https://instagram.com/kunstuebungsraum" target="_blank" rel="noopener noreferrer">@kunstuebungsraum</a>
+          <p class="sub-label">Koordination</p>
+          <p>Lukas Gschnitzer &amp; Eveline Reinholz</p>
+        </div>
+
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 KÜR – Kunstübungsraum Milbertshofen</p>
+        <div class="footer-legal">
+          <a href="impressum.html">Impressum &amp; Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const burger  = document.getElementById('navBurger');
+    const overlay = document.getElementById('navOverlay');
+    burger.addEventListener('click', () => {
+      const open = overlay.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    overlay.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        overlay.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', false);
+        document.body.style.overflow = '';
+      });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
