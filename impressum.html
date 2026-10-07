@@ -6,17 +6,17 @@
   <meta name="description" content="Impressum & Datenschutz – KÜR Kunstübungsraum Milbertshofen">
   <title>Impressum & Datenschutz – KÜR</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
     :root {
-      --bg:      #F4F1EB;
+      --bg:      #FFFFFF;
       --ink:     #0F0F0E;
-      --green:   #3DB53A;
+      --green:   #2B8FE0;
       --muted:   #9A9590;
       --faint:   #C8C4BC;
       --rule:    #D4D0C8;
       --paper:   #FFFFFF;
-      --font-body: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
       --font-mono: 'Space Mono', monospace;
       --container: 1400px;
       --pad-x:     80px;
@@ -27,7 +27,7 @@
     html { font-size: 16px; scroll-behavior: smooth; }
     body {
       font-family: var(--font-body);
-      background: var(--green);
+      background: var(--bg);
       color: var(--ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -65,33 +65,19 @@
       border-bottom: 1px solid transparent;
     }
     .nav.scrolled {
-      background: var(--green);
-      border-color: rgba(0,0,0,0.12);
+      background: var(--bg);
+      border-color: var(--rule);
     }
     .nav-logo {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 2px;
-      color: var(--ink);
       transition: opacity 0.3s ease;
-      text-align: center;
     }
     .nav-logo:hover { opacity: 0.7; }
-    .nav-logo-kuer {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 26px;
-      letter-spacing: 0.12em;
-      line-height: 1;
-    }
-    .nav-logo-sub {
-      font-family: var(--font-mono);
-      font-size: 8px;
-      letter-spacing: 0.08em;
-      color: rgba(15,15,14,0.55);
-      line-height: 1.4;
-      font-weight: 400;
+    .nav-logo img {
+      height: 56px;
+      width: auto;
+      display: block;
     }
     .nav-links {
       display: flex;
@@ -142,30 +128,57 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: var(--green);
-      z-index: 190;
+      background: #1E1C18;
+      z-index: 199;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
+      padding: 80px 40px 56px;
     }
     .nav-overlay.open { display: flex; }
-    .nav-overlay a {
-      font-size: clamp(36px, 8vw, 64px);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--ink);
-      opacity: 0.85;
-      transition: opacity 0.2s ease;
+    .nav-overlay ul {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: center;
+      gap: 0;
     }
-    .nav-overlay a:hover { opacity: 1; }
+    .nav-overlay li a {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      font-size: clamp(26px, 7vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: rgba(255,255,255,0.85);
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: color 0.2s ease;
+    }
+    .nav-overlay li:first-child a { border-top: 1px solid rgba(255,255,255,0.07); }
+    .nav-overlay li a:hover { color: var(--green); }
+    .nav-overlay-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.28);
+    }
+    .nav-overlay-foot {
+      margin-top: 40px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      line-height: 1.9;
+    }
 
     /* ─────────────────────────────────────────────────
        PAGE HEADER
     ───────────────────────────────────────────────── */
     .page-header {
       padding: calc(var(--pad-s) + 80px) var(--pad-x) var(--pad-s);
-      background: var(--green);
+      background: var(--bg);
     }
     .page-header .wrap {
       border-bottom: 1px solid rgba(15,15,14,0.18);
@@ -193,7 +206,7 @@
        CONTENT
     ───────────────────────────────────────────────── */
     .content {
-      background: var(--green);
+      background: var(--bg);
       padding: 80px 0 120px;
     }
     .content-grid {
@@ -451,17 +464,15 @@
 
   <!-- ─── Navigation ───────────────────────────────── -->
   <nav class="nav" id="nav" aria-label="Hauptnavigation">
-    <a href="index.html" class="nav-logo" aria-label="KÜR Startseite">
-      <span class="nav-logo-kuer">KÜR</span>
-      <span class="nav-logo-sub">Kunstübungsraum</span>
-      <span class="nav-logo-sub">Milbertshofen</span>
+    <a href="index.html" class="nav-logo" aria-label="KÜR – Startseite">
+      <img src="kuer-logo.jpg" alt="KÜR – Kunstübungsraum Milbertshofen">
     </a>
     <ul class="nav-links" role="list">
-      <li><a href="ueber-uns.html">Über Uns</a></li>
-      <li><a href="programm.html">Programm</a></li>
-      <li><a href="kontakt.html">Kontakt</a></li>
-      <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
-      <li><a href="archiv.html">Archiv</a></li>
+      <li><a href="index.html#ueber-uns">Über Uns</a></li>
+      <li><a href="index.html#programm">Programm</a></li>
+      <li><a href="index.html#veranstaltungen">Veranstaltungen</a></li>
+      <li><a href="index.html#nutzerinnen">Nutzer:innen</a></li>
+      <li><a href="index.html#kontakt">Kontakt</a></li>
     </ul>
     <button class="nav-burger" id="navBurger" aria-label="Menü öffnen" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -469,11 +480,14 @@
   </nav>
 
   <div class="nav-overlay" id="navOverlay" role="dialog" aria-label="Hauptnavigation mobil">
-    <a href="ueber-uns.html">Über Uns</a>
-    <a href="programm.html">Programm</a>
-    <a href="kontakt.html">Kontakt</a>
-    <a href="nutzerinnen.html">Nutzer*innen</a>
-    <a href="archiv.html">Archiv</a>
+    <ul>
+      <li><a href="index.html#ueber-uns"><span class="nav-overlay-num">01</span>Über Uns</a></li>
+      <li><a href="index.html#programm"><span class="nav-overlay-num">02</span>Programm</a></li>
+      <li><a href="index.html#veranstaltungen"><span class="nav-overlay-num">03</span>Veranstaltungen</a></li>
+      <li><a href="index.html#nutzerinnen"><span class="nav-overlay-num">04</span>Nutzer:innen</a></li>
+      <li><a href="index.html#kontakt"><span class="nav-overlay-num">05</span>Kontakt</a></li>
+    </ul>
+    <p class="nav-overlay-foot">KÜR – Kunstübungsraum Milbertshofen · München</p>
   </div>
 
   <main>
@@ -890,11 +904,11 @@
         <nav aria-label="Footer Navigation">
           <p class="footer-col-label">Navigation</p>
           <ul class="footer-nav">
-            <li><a href="ueber-uns.html">Über Uns</a></li>
-            <li><a href="programm.html">Programm</a></li>
-            <li><a href="kontakt.html">Kontakt</a></li>
-            <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
-            <li><a href="archiv.html">Archiv</a></li>
+            <li><a href="index.html#ueber-uns">Über Uns</a></li>
+            <li><a href="index.html#programm">Programm</a></li>
+            <li><a href="index.html#veranstaltungen">Veranstaltungen</a></li>
+            <li><a href="index.html#nutzerinnen">Nutzer:innen</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
           </ul>
         </nav>
         <div class="footer-contact">

@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Nutzer*innen – KÜR Kunstübungsraum Milbertshofen">
-  <title>Nutzer*innen – KÜR</title>
+  <meta name="description" content="Nutzer:innen – KÜR Kunstübungsraum Milbertshofen">
+  <title>Nutzer:innen – KÜR</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
     :root {
-      --bg:      #F4F1EB;
+      --bg:      #FFFFFF;
       --ink:     #0F0F0E;
-      --green:   #3DB53A;
+      --green:   #2B8FE0;
       --muted:   #9A9590;
       --faint:   #C8C4BC;
       --rule:    #D4D0C8;
       --paper:   #FFFFFF;
-      --font-body: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
       --font-mono: 'Space Mono', monospace;
       --container: 1400px;
       --pad-x:     80px;
@@ -71,28 +71,14 @@
     }
     .nav-logo {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 2px;
-      color: var(--ink);
       transition: opacity 0.3s ease;
-      text-align: center;
     }
     .nav-logo:hover { opacity: 0.7; }
-    .nav-logo-kuer {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 26px;
-      letter-spacing: 0.12em;
-      line-height: 1;
-    }
-    .nav-logo-sub {
-      font-family: var(--font-mono);
-      font-size: 8px;
-      letter-spacing: 0.08em;
-      color: rgba(15,15,14,0.55);
-      line-height: 1.4;
-      font-weight: 400;
+    .nav-logo img {
+      height: 56px;
+      width: auto;
+      display: block;
     }
     .nav-links {
       display: flex;
@@ -145,23 +131,50 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: var(--green);
-      z-index: 190;
+      background: #1E1C18;
+      z-index: 199;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
+      padding: 80px 40px 56px;
     }
     .nav-overlay.open { display: flex; }
-    .nav-overlay a {
-      font-size: clamp(36px, 8vw, 64px);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--ink);
-      opacity: 0.85;
-      transition: opacity 0.2s ease;
+    .nav-overlay ul {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: center;
+      gap: 0;
     }
-    .nav-overlay a:hover { opacity: 1; }
+    .nav-overlay li a {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      font-size: clamp(26px, 7vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: rgba(255,255,255,0.85);
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: color 0.2s ease;
+    }
+    .nav-overlay li:first-child a { border-top: 1px solid rgba(255,255,255,0.07); }
+    .nav-overlay li a:hover { color: var(--green); }
+    .nav-overlay-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.28);
+    }
+    .nav-overlay-foot {
+      margin-top: 40px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      line-height: 1.9;
+    }
 
     /* ─────────────────────────────────────────────────
        PAGE HEADER
@@ -284,7 +297,7 @@
        FOOTER
     ───────────────────────────────────────────────── */
     .footer {
-      background: var(--green);
+      background: #1E1C18;
       padding: var(--pad-s) 0 40px;
       font-family: var(--font-body);
     }
@@ -293,50 +306,50 @@
       grid-template-columns: 2fr 1fr 2fr;
       gap: 64px;
       padding-bottom: 64px;
-      border-bottom: 1px solid rgba(15,15,14,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     .footer-logo {
       font-weight: 700;
       letter-spacing: 0.1em;
-      color: var(--ink);
+      color: rgba(255,255,255,0.85);
       margin-bottom: 20px;
     }
     .footer-address {
       font-size: 13px;
       line-height: 1.9;
       font-style: normal;
-      color: rgba(15,15,14,0.5);
+      color: rgba(255,255,255,0.35);
     }
     .footer-col-label {
       font-family: var(--font-mono);
       font-size: 9px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(15,15,14,0.4);
+      color: rgba(255,255,255,0.25);
       margin-bottom: 16px;
     }
     .footer-nav { display: flex; flex-direction: column; gap: 10px; }
     .footer-nav a {
       font-size: 14px;
-      color: rgba(15,15,14,0.6);
+      color: rgba(255,255,255,0.45);
       transition: color 0.2s ease;
     }
-    .footer-nav a:hover { color: var(--ink); }
+    .footer-nav a:hover { color: rgba(255,255,255,0.95); }
     .footer-contact { display: flex; flex-direction: column; }
     .footer-contact a,
     .footer-contact p {
       font-size: 13px;
       line-height: 1.9;
-      color: rgba(15,15,14,0.6);
+      color: rgba(255,255,255,0.45);
     }
     .footer-contact a { transition: color 0.2s ease; }
-    .footer-contact a:hover { color: var(--ink); }
+    .footer-contact a:hover { color: rgba(255,255,255,0.95); }
     .footer-contact .sub-label {
       font-family: var(--font-mono);
       font-size: 9px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(15,15,14,0.35);
+      color: rgba(255,255,255,0.25);
       margin-top: 18px;
       margin-bottom: 2px;
     }
@@ -349,20 +362,20 @@
     .footer-copy {
       font-size: 11px;
       font-family: var(--font-mono);
-      color: rgba(15,15,14,0.35);
+      color: rgba(255,255,255,0.25);
       letter-spacing: 0.06em;
     }
     .footer-legal { display: flex; gap: 20px; }
     .footer-legal a {
       font-size: 11px;
       font-family: var(--font-mono);
-      color: rgba(15,15,14,0.45);
+      color: rgba(255,255,255,0.3);
       letter-spacing: 0.06em;
       text-decoration: underline;
       text-underline-offset: 3px;
       transition: color 0.2s ease;
     }
-    .footer-legal a:hover { color: var(--ink); }
+    .footer-legal a:hover { color: rgba(255,255,255,0.85); }
 
     /* ─── Responsive ─────────────────────────────────── */
     @media (max-width: 1100px) {
@@ -387,16 +400,14 @@
 
   <!-- ─── Navigation ───────────────────────────────── -->
   <nav class="nav" id="nav" aria-label="Hauptnavigation">
-    <a href="index.html" class="nav-logo" aria-label="KÜR Startseite">
-      <span class="nav-logo-kuer">KÜR</span>
-      <span class="nav-logo-sub">Kunstübungsraum</span>
-      <span class="nav-logo-sub">Milbertshofen</span>
+    <a href="index.html" class="nav-logo" aria-label="KÜR – Startseite">
+      <img src="kuer-logo.jpg" alt="KÜR – Kunstübungsraum Milbertshofen">
     </a>
     <ul class="nav-links" role="list">
       <li><a href="index.html#ueber-uns">Über Uns</a></li>
       <li><a href="index.html#programm">Programm</a></li>
-      <li><a href="nutzerinnen.html" class="active">Nutzer*innen</a></li>
-      <li><a href="archiv.html">Archiv</a></li>
+      <li><a href="index.html#veranstaltungen">Veranstaltungen</a></li>
+      <li><a href="index.html#nutzerinnen">Nutzer:innen</a></li>
       <li><a href="index.html#kontakt">Kontakt</a></li>
     </ul>
     <button class="nav-burger" id="navBurger" aria-label="Menü öffnen" aria-expanded="false">
@@ -405,11 +416,14 @@
   </nav>
 
   <div class="nav-overlay" id="navOverlay" role="dialog" aria-label="Hauptnavigation mobil">
-    <a href="index.html#ueber-uns">Über Uns</a>
-    <a href="index.html#programm">Programm</a>
-    <a href="nutzerinnen.html">Nutzer*innen</a>
-    <a href="archiv.html">Archiv</a>
-    <a href="index.html#kontakt">Kontakt</a>
+    <ul>
+      <li><a href="index.html#ueber-uns"><span class="nav-overlay-num">01</span>Über Uns</a></li>
+      <li><a href="index.html#programm"><span class="nav-overlay-num">02</span>Programm</a></li>
+      <li><a href="index.html#veranstaltungen"><span class="nav-overlay-num">03</span>Veranstaltungen</a></li>
+      <li><a href="index.html#nutzerinnen"><span class="nav-overlay-num">04</span>Nutzer:innen</a></li>
+      <li><a href="index.html#kontakt"><span class="nav-overlay-num">05</span>Kontakt</a></li>
+    </ul>
+    <p class="nav-overlay-foot">KÜR – Kunstübungsraum Milbertshofen · München</p>
   </div>
 
   <main>
@@ -419,8 +433,8 @@
       <div class="wrap">
         <span class="page-header-label">KÜR – Kunstübungsraum Milbertshofen</span>
         <div class="page-header-inner">
-          <h1 class="reveal">Nutzer<span style="font-weight:300">*</span>innen</h1>
-          <p class="page-header-intro reveal delay-1">Die Menschen, die KÜR mit Leben füllen. Junge Künstler*innen, Kreative und Initiativen aus München-Milbertshofen und darüber hinaus.</p>
+          <h1 class="reveal">Nutzer:innen</h1>
+          <p class="page-header-intro reveal delay-1">Die Menschen, die KÜR mit Leben füllen. Junge Künstler:innen, Kreative und Initiativen aus München-Milbertshofen und darüber hinaus.</p>
         </div>
       </div>
     </header>
@@ -429,7 +443,7 @@
     <section class="grid-section" aria-labelledby="profiles-heading">
       <div class="wrap">
         <div class="grid-meta">
-          <h2 id="profiles-heading" class="grid-count">— 12 Nutzer*innen</h2>
+          <h2 id="profiles-heading" class="grid-count">— 12 Nutzer:innen</h2>
         </div>
 
         <div class="profiles-grid">
@@ -544,7 +558,7 @@
         <div>
           <div class="footer-logo">
             <span style="display:block;font-size:22px;letter-spacing:0.12em;">KÜR</span>
-            <span style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:rgba(15,15,14,0.4);font-weight:400;margin-top:3px;line-height:1.5;">Kunstübungsraum<br>Milbertshofen</span>
+            <span style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-weight:400;margin-top:3px;line-height:1.5;">Kunstübungsraum<br>Milbertshofen</span>
           </div>
           <address class="footer-address">
             Alter-St.-Georgs-Platz 4<br>
@@ -558,8 +572,8 @@
           <ul class="footer-nav">
             <li><a href="index.html#ueber-uns">Über Uns</a></li>
             <li><a href="index.html#programm">Programm</a></li>
-            <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
-            <li><a href="archiv.html">Archiv</a></li>
+            <li><a href="index.html#veranstaltungen">Veranstaltungen</a></li>
+            <li><a href="nutzerinnen.html">Nutzer:innen</a></li>
             <li><a href="index.html#kontakt">Kontakt</a></li>
           </ul>
         </nav>

@@ -6,19 +6,19 @@
   <meta name="description" content="KÜR – Kunstübungsraum Milbertshofen. Ein Experimentierraum für junge Kunst und Kultur in München.">
   <title>KÜR – Kunstübungsraum Milbertshofen</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
     /* ─── Design Tokens ────────────────────────────── */
     :root {
-      --bg:      #F4F1EB;
+      --bg:      #FFFFFF;
       --ink:     #0F0F0E;
-      --green:   #3DB53A;
+      --green:   #2B8FE0;
       --muted:   #9A9590;
       --faint:   #C8C4BC;
       --rule:    #D4D0C8;
       --paper:   #FFFFFF;
 
-      --font-body: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
       --font-mono: 'Space Mono', monospace;
 
       --container: 1400px;
@@ -129,30 +129,15 @@
 
     .nav-logo {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 2px;
-      color: var(--ink);
       transition: opacity 0.3s ease;
-      text-align: center;
     }
     .nav-logo:hover { opacity: 0.7; }
-    .nav-logo-kuer {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 26px;
-      letter-spacing: 0.12em;
-      line-height: 1;
+    .nav-logo img {
+      height: 56px;
+      width: auto;
+      display: block;
     }
-    .nav-logo-sub {
-      font-family: var(--font-mono);
-      font-size: 8px;
-      letter-spacing: 0.08em;
-      color: rgba(15,15,14,0.55);
-      line-height: 1.4;
-      font-weight: 400;
-    }
-    .nav.scrolled .nav-logo { color: var(--ink); }
 
     .nav-links {
       display: flex;
@@ -163,7 +148,7 @@
       font-size: 16px;
       font-weight: 400;
       letter-spacing: 0.02em;
-      color: rgba(15,15,14,0.6);
+      color: var(--muted);
       position: relative;
       padding-bottom: 3px;
       transition: color 0.3s ease;
@@ -208,28 +193,64 @@
       position: fixed;
       inset: 0;
       z-index: 199;
-      background: var(--green);
+      background: #1E1C18;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      padding: 80px 40px 56px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.35s ease;
     }
     .nav-overlay.open { opacity: 1; pointer-events: all; }
-    .nav-overlay ul { text-align: center; }
-    .nav-overlay li + li { margin-top: 4px; }
-    .nav-overlay a {
+    .nav-overlay ul {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: center;
+      gap: 0;
+    }
+    .nav-overlay li a {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
       font-family: var(--font-body);
       font-weight: 700;
-      font-size: clamp(44px, 11vw, 88px);
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      opacity: 0.75;
-      transition: opacity 0.2s ease;
+      font-size: clamp(26px, 7vw, 44px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.85);
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: color 0.2s ease;
     }
-    .nav-overlay a:hover { opacity: 1; }
+    .nav-overlay li:first-child a { border-top: 1px solid rgba(255,255,255,0.07); }
+    .nav-overlay li a:hover { color: var(--green); }
+    .nav-overlay-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.28);
+      flex-shrink: 0;
+      padding-bottom: 2px;
+    }
+    .nav-overlay-foot {
+      margin-top: 40px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.22);
+      line-height: 1.9;
+    }
+
+    /* Nav turns dark when menu is open */
+    .nav.nav-open {
+      background: #1E1C18;
+      border-color: rgba(255,255,255,0.08);
+    }
+    .nav.nav-open .nav-burger span { background: rgba(255,255,255,0.65); }
+    .nav.nav-open .nav-logo img { filter: invert(1); }
 
     /* ─────────────────────────────────────────────────
        HERO
@@ -238,11 +259,24 @@
       position: relative;
       height: 100vh;
       min-height: 640px;
-      background: var(--green);
+      background: var(--bg);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       overflow: hidden;
+    }
+
+    /* Color splashes */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 560px 420px at 80% 15%, rgba(43,143,224,0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 420px 380px at 10% 80%, rgba(214,80,40,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 320px 320px at 58% 90%, rgba(224,178,0,0.09) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 1;
     }
 
     /* Grain */
@@ -260,6 +294,36 @@
       position: relative;
       z-index: 2;
       padding: 0 var(--pad-x) 80px;
+      max-width: 58%;
+    }
+
+    .hero-img-ph {
+      position: absolute;
+      top: 50%;
+      right: var(--pad-x);
+      transform: translateY(-50%);
+      width: clamp(140px, 22vw, 320px);
+      aspect-ratio: 3/4;
+      background: var(--rule);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--faint);
+      letter-spacing: 0.12em;
+    }
+    @media (max-width: 768px) {
+      .hero {
+        justify-content: center;
+        padding-top: 80px;
+      }
+      .hero-content {
+        max-width: 100%;
+        padding-bottom: 40px;
+      }
+      .hero-img-ph { display: none; }
     }
 
     .hero-word {
@@ -275,11 +339,11 @@
     .hero-word--light {
       font-weight: 300;
       color: transparent;
-      -webkit-text-stroke: 6px #ffffff;
+      -webkit-text-stroke: 3px var(--ink);
       letter-spacing: -0.02em;
     }
     .hero-word--bold  { font-weight: 700; }
-    .hero-word--semi  { font-weight: 700; color: var(--bg); letter-spacing: -0.04em; }
+    .hero-word--semi  { font-weight: 700; color: var(--green); letter-spacing: -0.04em; }
 
     .hero-word.animate {
       animation: wordUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
@@ -342,24 +406,6 @@
       55%      { transform: translateY(5px); }
     }
 
-    /* ─── Brush stroke (fixed + parallax) ───────────── */
-    .brush {
-      position: fixed;
-      top: 50%;
-      right: 2vw;
-      width: clamp(280px, 40vw, 580px);
-      pointer-events: none;
-      z-index: 50;
-      mix-blend-mode: multiply;
-      opacity: 1;
-      will-change: transform;
-    }
-    @media (max-width: 1100px) {
-      .brush { right: -2vw; width: clamp(240px, 38vw, 480px); }
-    }
-    @media (max-width: 800px) {
-      .brush { right: -8vw; width: clamp(200px, 45vw, 360px); }
-    }
 
 
     /* ─────────────────────────────────────────────────
@@ -424,6 +470,17 @@
     .about {
       padding: var(--pad-s) var(--pad-x);
       border-top: 1px solid var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .about::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(224,178,0,0.08) 0%, transparent 65%);
+      top: -120px; right: -60px;
+      pointer-events: none;
     }
     .about-grid {
       display: grid;
@@ -443,7 +500,7 @@
       margin-bottom: 32px;
     }
     .about-text p {
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1.75;
       color: var(--ink);
       margin-bottom: 20px;
@@ -457,9 +514,29 @@
     ───────────────────────────────────────────────── */
     .programm {
       padding: var(--pad-s) var(--pad-x);
-      background: var(--green);
+      background: #F0EAE0;
+      position: relative;
+      overflow: hidden;
     }
-    .programm .section-label { color: rgba(15,15,14,0.45); }
+    .programm::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(43,143,224,0.13) 0%, transparent 65%);
+      top: -150px; right: -80px;
+      pointer-events: none;
+    }
+    .programm::after {
+      content: '';
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(214,80,40,0.10) 0%, transparent 65%);
+      bottom: -80px; left: 8%;
+      pointer-events: none;
+    }
+    .programm .wrap { position: relative; z-index: 1; }
     .programm-sheets {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -485,6 +562,17 @@
     .nutzerinnen {
       padding: var(--pad-s) var(--pad-x);
       border-top: 1px solid var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .nutzerinnen::before {
+      content: '';
+      position: absolute;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,64,190,0.07) 0%, transparent 65%);
+      bottom: -100px; right: 5%;
+      pointer-events: none;
     }
     .nutzerinnen-header {
       display: flex;
@@ -542,6 +630,17 @@
     .archiv {
       padding: var(--pad-s) var(--pad-x);
       border-top: 1px solid var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .archiv::before {
+      content: '';
+      position: absolute;
+      width: 520px; height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(214,59,31,0.07) 0%, transparent 65%);
+      top: -80px; left: -60px;
+      pointer-events: none;
     }
     .archiv-heading {
       font-family: var(--font-body);
@@ -597,17 +696,17 @@
     ───────────────────────────────────────────────── */
     .mitmachen {
       padding: var(--pad-s) var(--pad-x);
-      background: var(--green);
-      border-top: 1px solid rgba(15,15,14,0.1);
+      background: #1E1C18;
+      border-top: none;
     }
-    .mitmachen .section-label { color: rgba(15,15,14,0.45); }
+    .mitmachen .section-label { color: rgba(255,255,255,0.35); }
     .mitmachen-heading {
       font-family: var(--font-body);
       font-weight: 700;
       font-size: clamp(80px, 15.5vw, 210px);
       line-height: 0.85;
       letter-spacing: -0.04em;
-      color: var(--ink);
+      color: rgba(255,255,255,0.95);
       margin-bottom: 56px;
     }
     .mitmachen-body {
@@ -617,9 +716,9 @@
       align-items: start;
     }
     .mitmachen-text {
-      font-size: 19px;
+      font-size: 15px;
       line-height: 1.65;
-      color: rgba(15,15,14,0.65);
+      color: rgba(255,255,255,0.55);
       max-width: 440px;
     }
     .mitmachen-links {
@@ -631,7 +730,7 @@
       font-family: var(--font-body);
       font-weight: 700;
       font-size: clamp(17px, 2vw, 26px);
-      color: var(--ink);
+      color: rgba(255,255,255,0.95);
       text-decoration: underline;
       text-decoration-thickness: 1px;
       text-underline-offset: 5px;
@@ -642,21 +741,21 @@
     .mitmachen-ig {
       font-family: var(--font-mono);
       font-size: 12px;
-      color: rgba(15,15,14,0.5);
+      color: rgba(255,255,255,0.4);
       letter-spacing: 0.08em;
       transition: color 0.2s ease;
     }
-    .mitmachen-ig:hover { color: var(--ink); }
+    .mitmachen-ig:hover { color: rgba(255,255,255,0.9); }
 
     /* ─────────────────────────────────────────────────
        INSTAGRAM
     ───────────────────────────────────────────────── */
     .instagram {
-      background: var(--green);
+      background: #F5F0E8;
       padding: var(--pad-s) var(--pad-x);
       overflow: hidden;
     }
-    .instagram .section-label { color: rgba(15,15,14,0.45); margin-bottom: 32px; }
+    .instagram .section-label { margin-bottom: 32px; }
     .instagram-handle {
       display: inline-block;
       font-family: var(--font-body);
@@ -683,7 +782,7 @@
        TRÄGERSCHAFT
     ───────────────────────────────────────────────── */
     .traegerschaft {
-      background: var(--green);
+      background: #F0EAE0;
       padding: 10px 0;
     }
     .traegerschaft-inner {
@@ -710,29 +809,29 @@
        FOOTER
     ───────────────────────────────────────────────── */
     .footer {
-      background: var(--green);
+      background: #1E1C18;
       padding: 80px var(--pad-x) 40px;
-      border-top: 1px solid rgba(15,15,14,0.1);
+      border-top: none;
     }
     .footer-grid {
       display: grid;
       grid-template-columns: repeat(3,1fr);
       gap: 64px;
       padding-bottom: 64px;
-      border-bottom: 1px solid rgba(15,15,14,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     .footer-logo {
       font-family: var(--font-body);
       font-weight: 700;
       font-size: 20px;
       letter-spacing: 0.12em;
-      color: var(--ink);
+      color: rgba(255,255,255,0.9);
       margin-bottom: 24px;
     }
     .footer-address {
       font-family: var(--font-mono);
       font-size: 11px;
-      color: rgba(15,15,14,0.55);
+      color: rgba(255,255,255,0.38);
       line-height: 1.9;
       letter-spacing: 0.04em;
       font-style: normal;
@@ -742,7 +841,7 @@
       font-size: 9px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(15,15,14,0.4);
+      color: rgba(255,255,255,0.28);
       margin-bottom: 20px;
     }
     .footer-nav { display: flex; flex-direction: column; gap: 10px; }
@@ -750,26 +849,26 @@
       font-family: var(--font-body);
       font-size: 14px;
       font-weight: 400;
-      color: rgba(15,15,14,0.55);
+      color: rgba(255,255,255,0.45);
       transition: color 0.2s ease;
     }
-    .footer-nav a:hover { color: var(--ink); }
+    .footer-nav a:hover { color: rgba(255,255,255,0.95); }
     .footer-contact { display: flex; flex-direction: column; }
     .footer-contact a,
     .footer-contact p {
       font-family: var(--font-body);
       font-size: 14px;
-      color: rgba(15,15,14,0.55);
+      color: rgba(255,255,255,0.45);
       line-height: 1.5;
     }
     .footer-contact a { transition: color 0.2s ease; }
-    .footer-contact a:hover { color: var(--ink); }
+    .footer-contact a:hover { color: rgba(255,255,255,0.95); }
     .footer-contact .sub-label {
       font-family: var(--font-mono);
       font-size: 9px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(15,15,14,0.35);
+      color: rgba(255,255,255,0.25);
       margin-top: 20px;
       margin-bottom: 4px;
     }
@@ -782,18 +881,18 @@
     .footer-copy {
       font-family: var(--font-mono);
       font-size: 10px;
-      color: rgba(15,15,14,0.4);
+      color: rgba(255,255,255,0.25);
       letter-spacing: 0.06em;
     }
     .footer-legal { display: flex; gap: 20px; }
     .footer-legal a {
       font-family: var(--font-mono);
       font-size: 10px;
-      color: rgba(15,15,14,0.4);
+      color: rgba(255,255,255,0.3);
       letter-spacing: 0.06em;
       transition: color 0.2s ease;
     }
-    .footer-legal a:hover { color: var(--ink); }
+    .footer-legal a:hover { color: rgba(255,255,255,0.85); }
 
     /* ─────────────────────────────────────────────────
        RESPONSIVE
@@ -829,15 +928,13 @@
   <!-- ─── Navigation ───────────────────────────────── -->
   <nav class="nav" id="nav" aria-label="Hauptnavigation">
     <a href="/" class="nav-logo" aria-label="KÜR – Startseite">
-      <span class="nav-logo-kuer">KÜR</span>
-      <span class="nav-logo-sub">Kunstübungsraum</span>
-      <span class="nav-logo-sub">Milbertshofen</span>
+      <img src="kuer-logo.jpg" alt="KÜR – Kunstübungsraum Milbertshofen">
     </a>
     <ul class="nav-links">
       <li><a href="#ueber-uns">Über Uns</a></li>
       <li><a href="#programm">Programm</a></li>
-      <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
-      <li><a href="archiv.html">Archiv</a></li>
+      <li><a href="#veranstaltungen">Veranstaltungen</a></li>
+      <li><a href="#nutzerinnen">Nutzer:innen</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
     </ul>
     <button class="nav-burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
@@ -845,16 +942,16 @@
     </button>
   </nav>
 
-  <img class="brush" src="brush.png" alt="" aria-hidden="true">
 
   <div class="nav-overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
     <ul>
-      <li><a href="#ueber-uns">Über Uns</a></li>
-      <li><a href="#programm">Programm</a></li>
-      <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
-      <li><a href="archiv.html">Archiv</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="#ueber-uns"><span class="nav-overlay-num">01</span>Über Uns</a></li>
+      <li><a href="#programm"><span class="nav-overlay-num">02</span>Programm</a></li>
+      <li><a href="#veranstaltungen"><span class="nav-overlay-num">03</span>Veranstaltungen</a></li>
+      <li><a href="#nutzerinnen"><span class="nav-overlay-num">04</span>Nutzer:innen</a></li>
+      <li><a href="#kontakt"><span class="nav-overlay-num">05</span>Kontakt</a></li>
     </ul>
+    <p class="nav-overlay-foot">KÜR – Kunstübungsraum Milbertshofen · München</p>
   </div>
 
   <main>
@@ -869,6 +966,7 @@
         </h1>
         <p class="hero-tagline">Experimentierraum&nbsp;&nbsp;·&nbsp;&nbsp;Milbertshofen&nbsp;&nbsp;·&nbsp;&nbsp;München</p>
       </div>
+      <div class="hero-img-ph" aria-hidden="true">[ Foto ]</div>
       <div class="hero-meta" aria-hidden="true">
         <span></span>
         <span class="hero-scroll">
@@ -882,7 +980,7 @@
     <section class="banner" aria-label="Einleitung">
       <div class="banner-img"></div>
       <div class="banner-text">
-        <p class="reveal">Mit KÜR gibt es einen Experimentierraum für junge Kunst und Kultur, einen kreativen Freiraum für junge Künstler*innen und einen offenen Kulturort für alle.</p>
+        <p class="reveal">Mit KÜR gibt es einen Experimentierraum für junge Kunst und Kultur, einen kreativen Freiraum für junge Künstler:innen und einen offenen Kulturort für alle.</p>
       </div>
     </section>
 
@@ -895,13 +993,13 @@
           <div class="about-text">
             <h2 id="about-h" class="reveal">Ein offener Kulturort<br>für alle.</h2>
             <p class="reveal delay-1">
-              Bandübungsräume kennt jede*r, ab jetzt gibt es den Kunstübungsraum.
+              Bandübungsräume kennt jede:r, ab jetzt gibt es den Kunstübungsraum.
             </p>
             <p class="reveal delay-1">
               Mit KÜR gibt es unter der Trägerschaft des „Stadtteilarbeit e.V." in Kooperation mit der „Kontrapunkt gGmbH/IMAL" einen neuen Experimentierraum für junge Kunst und Kultur – offen für alle.
             </p>
             <p class="reveal delay-2">
-              KÜR ist ein Projekt, das sich gezielt an junge Erwachsene richtet und – analog zum Konzept der Bandübungsräume – Arbeits- und Übungsmöglichkeiten für die Bildende Kunst, die Medienkunst und Urbane Kultur bietet. Damit steht jungen Künstler*innen, Initiativen und Projekten ein Raum zur Verfügung, um an ihren Projekten zu arbeiten, sich zu vernetzen und ihre Werke der Öffentlichkeit zu präsentieren.
+              KÜR ist ein Projekt, das sich gezielt an junge Erwachsene richtet und – analog zum Konzept der Bandübungsräume – Arbeits- und Übungsmöglichkeiten für die Bildende Kunst, die Medienkunst und Urbane Kultur bietet. Damit steht jungen Künstler:innen, Initiativen und Projekten ein Raum zur Verfügung, um an ihren Projekten zu arbeiten, sich zu vernetzen und ihre Werke der Öffentlichkeit zu präsentieren.
             </p>
             <p class="reveal delay-2">
               Gedacht ist vordringlich an eine Zielgruppe zwischen 18 und 27 Jahren. Im Rahmen unseres Programms adressieren wir jedoch auch andere Altersgruppen, insbesondere aus der Nachbarschaft. In generationenübergreifenden Formaten laden wir dazu ein, an unserem Angebot teilzuhaben. Unser Ziel ist die Schaffung eines lebendigen und offenen Kulturorts für alle, die Förderung des Dialogs der Kulturen und Generationen sowie eines guten Zusammenlebens mit der Nachbarschaft. Dem Stadtteil bleibt mit KÜR ein wichtiger Ort der Begegnung und Kreativität erhalten, der sich für Offenheit und Vielfalt einsetzt und alle mit seinem Programm zu kultureller Teilhabe einlädt.
@@ -926,41 +1024,11 @@
       </div>
     </section>
 
-    <!-- ─── Nutzer*innen ──────────────────────────────── -->
-    <section class="nutzerinnen" aria-labelledby="nutzerinnen-h">
+    <!-- ─── Veranstaltungen ──────────────────────────── -->
+    <section class="archiv" id="veranstaltungen" aria-labelledby="veranstaltungen-h">
       <div class="wrap">
-        <span class="section-label reveal">Nutzer*innen</span>
-        <div class="nutzerinnen-header">
-          <h2 id="nutzerinnen-h" class="nutzerinnen-title reveal">Die Community<br>macht KÜR.</h2>
-        </div>
-        <div class="nutzerinnen-grid">
-          <article class="user-card reveal">
-            <div class="img-ph img-ph-foto user-card-img" role="img" aria-label="Foto Anna M. – Platzhalter"></div>
-            <h3 class="user-card-name">Anna M.</h3>
-            <p class="user-card-role">Malerei &amp; Installation</p>
-          </article>
-          <article class="user-card reveal delay-1">
-            <div class="img-ph img-ph-foto user-card-img" role="img" aria-label="Foto Kojo B. – Platzhalter"></div>
-            <h3 class="user-card-name">Kojo B.</h3>
-            <p class="user-card-role">Urbane Fotografie</p>
-          </article>
-          <article class="user-card reveal delay-2">
-            <div class="img-ph img-ph-foto user-card-img" role="img" aria-label="Foto Lena S. – Platzhalter"></div>
-            <h3 class="user-card-name">Lena S.</h3>
-            <p class="user-card-role">Medienkunst</p>
-          </article>
-        </div>
-        <div class="nutzerinnen-more reveal">
-          <a href="nutzerinnen.html" class="link-arrow">Alle Nutzer*innen →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── Archiv ───────────────────────────────────── -->
-    <section class="archiv" aria-labelledby="archiv-h">
-      <div class="wrap">
-        <span class="section-label reveal">Archiv</span>
-        <h2 id="archiv-h" class="archiv-heading reveal">Was war.<br>Was bleibt.</h2>
+        <span class="section-label reveal">Veranstaltungen</span>
+        <h2 id="veranstaltungen-h" class="archiv-heading reveal">Aktuelle<br>Veranstaltungen.</h2>
 
         <article class="archiv-entry reveal">
           <div class="archiv-date">
@@ -987,7 +1055,37 @@
         </article>
 
         <div class="archiv-footer reveal">
-          <a href="archiv.html" class="link-arrow">Zum Archiv →</a>
+          <a href="archiv.html" class="link-arrow">Alle Veranstaltungen →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Nutzer:innen ──────────────────────────────── -->
+    <section class="nutzerinnen" id="nutzerinnen" aria-labelledby="nutzerinnen-h">
+      <div class="wrap">
+        <span class="section-label reveal">Nutzer:innen</span>
+        <div class="nutzerinnen-header">
+          <h2 id="nutzerinnen-h" class="nutzerinnen-title reveal">Die Community<br>macht KÜR.</h2>
+        </div>
+        <div class="nutzerinnen-grid">
+          <article class="user-card reveal">
+            <div class="img-ph img-ph-foto user-card-img" role="img" aria-label="Foto Anna M. – Platzhalter"></div>
+            <h3 class="user-card-name">Anna M.</h3>
+            <p class="user-card-role">Malerei &amp; Installation</p>
+          </article>
+          <article class="user-card reveal delay-1">
+            <div class="img-ph img-ph-foto user-card-img" role="img" aria-label="Foto Kojo B. – Platzhalter"></div>
+            <h3 class="user-card-name">Kojo B.</h3>
+            <p class="user-card-role">Urbane Fotografie</p>
+          </article>
+          <article class="user-card reveal delay-2">
+            <div class="img-ph img-ph-foto user-card-img" role="img" aria-label="Foto Lena S. – Platzhalter"></div>
+            <h3 class="user-card-name">Lena S.</h3>
+            <p class="user-card-role">Medienkunst</p>
+          </article>
+        </div>
+        <div class="nutzerinnen-more reveal">
+          <a href="nutzerinnen.html" class="link-arrow">Alle Nutzer:innen →</a>
         </div>
       </div>
     </section>
@@ -1047,7 +1145,7 @@
         <div>
           <div class="footer-logo">
             <span style="display:block;font-size:22px;letter-spacing:0.12em;">KÜR</span>
-            <span style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:rgba(15,15,14,0.45);font-weight:400;margin-top:3px;line-height:1.5;">Kunstübungsraum<br>Milbertshofen</span>
+            <span style="display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:rgba(255,255,255,0.35);font-weight:400;margin-top:3px;line-height:1.5;">Kunstübungsraum<br>Milbertshofen</span>
           </div>
           <address class="footer-address">
             Alter-St.-Georgs-Platz 4<br>
@@ -1061,8 +1159,8 @@
           <ul class="footer-nav">
             <li><a href="#ueber-uns">Über Uns</a></li>
             <li><a href="#programm">Programm</a></li>
-            <li><a href="nutzerinnen.html">Nutzer*innen</a></li>
-            <li><a href="archiv.html">Archiv</a></li>
+            <li><a href="#veranstaltungen">Veranstaltungen</a></li>
+            <li><a href="#nutzerinnen">Nutzer:innen</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
           </ul>
         </nav>
@@ -1089,38 +1187,12 @@
 
   <script>
     // ─── Nav scroll state ────────────────────────────
-    const nav    = document.getElementById('nav');
-    const brush  = document.querySelector('.brush');
-    const hero   = document.querySelector('.hero');
+    const nav = document.getElementById('nav');
 
-    // Nav scroll state
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
     nav.classList.toggle('scrolled', window.scrollY > 60);
-
-    // Brush: smooth parallax via rAF + lerp
-    let brushCurrent = 0;
-    let brushTarget  = 0;
-    let brushRaf     = null;
-
-    // Set correct initial position immediately (before any scroll)
-    brush.style.transform = `translateY(-50%)`;
-
-    function animateBrush() {
-      brushCurrent += (brushTarget - brushCurrent) * 0.08;
-      brush.style.transform = `translateY(calc(-50% - ${brushCurrent.toFixed(2)}px))`;
-      if (Math.abs(brushTarget - brushCurrent) > 0.2) {
-        brushRaf = requestAnimationFrame(animateBrush);
-      } else {
-        brushRaf = null;
-      }
-    }
-
-    window.addEventListener('scroll', () => {
-      brushTarget = window.scrollY * 1.1;
-      if (!brushRaf) brushRaf = requestAnimationFrame(animateBrush);
-    }, { passive: true });
 
     // ─── Hero word animations ────────────────────────
     window.addEventListener('load', () => {
@@ -1134,6 +1206,7 @@
     const setMenu = (open) => {
       overlay.classList.toggle('open', open);
       burger.classList.toggle('open', open);
+      nav.classList.toggle('nav-open', open);
       burger.setAttribute('aria-expanded', String(open));
       document.body.style.overflow = open ? 'hidden' : '';
     };
